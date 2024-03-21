@@ -1,0 +1,22 @@
+ * {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+}
+
+ .MuiDataGrid-row {
+   cursor: pointer;
+ }
+
+ .cool-gradient {
+background: #360033;  /* fallback for old browsers */
+background: -webkit-linear-gradient(-200deg, #0b8793, #240036);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(-200deg, #0b8793, #240036); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
