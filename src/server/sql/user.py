@@ -56,6 +56,7 @@ class User(DatabaseManager):
             return User(user_id["id"])
         # If the login failed
         except IndexError:
+            self._close(db)
             return User(-1)
             
     def generate_jwt(self) -> str:
@@ -75,4 +76,34 @@ class User(DatabaseManager):
         self._close(db)
 
         return jwt
+
+    def authendicate_jwt(self, jwt: str, decoded_jwt: Tuple[str, Any]) -> bool:
+        db, cursor = self._connect()
+
+        try:
+            # Find the token in the database, where it is no older than 24 hours
+            user_id = self._execute_query(
+                db, cursor,
+                """
+SELECT 
+    id
+FROM
+    tokens
+WHERE
+    jwt = %s AND user_id = %s
+        AND TIMESTAMPDIFF(HOUR,
+        NOW(),
+        create_time) <= 24;""", 
+                [jwt, decoded_jwt["id"]]
+            )[0]
+            print(user_id)
+            self._close(db)
+
+            return True
+
+        # If the authendication failed
+        except IndexError:
+            self._close(db)
+            return False
+        
 

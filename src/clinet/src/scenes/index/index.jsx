@@ -18,6 +18,22 @@ const Index = () => {
 
   useEffect(() => {
     head.setData({location: ["Dashboard"]});
+
+    fetch(
+      `${config.baseurl}/dashboard/get_data`,
+      {
+        credentials: 'include',
+      }
+    ).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Parse the response JSON
+    })
+    .then(data => {
+      // Handle the response data here
+      console.log(data);
+    })
   }, [])
 
   return (
