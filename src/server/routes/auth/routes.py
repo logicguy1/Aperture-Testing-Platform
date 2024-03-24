@@ -1,6 +1,8 @@
 from flask import render_template, redirect, flash, url_for, request, jsonify, make_response
+import datetime
 
 from routes.auth import bp
+from sql.user import User
 
 
 @bp.route('/login', methods=['POST'])
@@ -8,18 +10,23 @@ def login():
     username = request.json['user']
     password = request.json['pass']
 
-    print(username, password)
+    # Attempt to login the user, if found returns User object
+    user = User(-1).login(username, password)
 
-    if True:
-        jwt = "Hellooo"
-        response = {}
-        response["status"] = True
-        response["message"] = "User logged in"
-        response["user"] = username
+    if user:
+        # Generate signed auth token to be validated later
+        jwt = user.generate_jwt()
+
+        # Create response object to be shared with the client in a readable format
+        response = {
+            "status": True,
+            "message": "User logged in",
+            "user": user.username
+        }
         resp = make_response(jsonify(response))
-        print(response)
-        resp.set_cookie('authorization', jwt, path='/', samesite='Strict')
 
+        # Set the auth token as a cookie
+        resp.set_cookie('authorization', jwt, path='/', samesite='Strict')
         return resp
 
     return jsonify({"status": False, "message": "User not recognised"})

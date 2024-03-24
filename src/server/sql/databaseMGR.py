@@ -4,11 +4,10 @@ from abc import ABC, abstractmethod
 
 
 class DatabaseManager(ABC):
-    def __init__(self):
-        schema: str = "apeture"
-        host: str = "localhost"
-        user: str = "drill"
-        password: str = "test123"
+    schema: str = "apeture"
+    host: str = "localhost"
+    user: str = "drill"
+    password: str = "test123"
 
     def _connect(self) -> Tuple[mysql.connector.connection.MySQLConnection, mysql.connector.connection_cext.CMySQLConnection]:
         db = mysql.connector.connect(
@@ -16,9 +15,8 @@ class DatabaseManager(ABC):
             user=self.user,
             password=self.password,
             database=self.schema,
-            dictionary=True
         )
-        cursor = db.cursor()
+        cursor = db.cursor(dictionary=True)
 
         return (db, cursor)
 
@@ -30,7 +28,8 @@ class DatabaseManager(ABC):
         vals: List[Any]
     ) -> List[Any]:
         cursor.execute(sql, vals)
-        result = self.cursor.fetchall()
+        result = cursor.fetchall()
+
         return result
 
     def _commit_data(
@@ -42,7 +41,6 @@ class DatabaseManager(ABC):
     ) -> None:
         cursor.execute(sql, vals)
         db.commit()
-        return result
 
     def _close(self, db: mysql.connector.connection.MySQLConnection) -> None:
         db.close()
