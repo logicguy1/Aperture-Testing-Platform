@@ -60,6 +60,7 @@ export const tokens = (mode) => ({
           800: "#2a2d64",
           900: "#151632",
         },
+        borderColor: "#727681",
       }
     : {
         grey: {
@@ -117,12 +118,16 @@ export const tokens = (mode) => ({
           800: "#c3c6fd",
           900: "#e1e2fe",
         },
-      }),
-});
+        borderColor: "#ddd",
+      }
+    ),
+  }
+);
 
 // MUI theme settings
 export const themeSettings = (mode) => {
   const colors = tokens(mode);
+
   return {
     palette: {
       mode: mode,

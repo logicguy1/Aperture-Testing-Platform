@@ -96,7 +96,6 @@ WHERE
         create_time) <= 24;""", 
                 [jwt, decoded_jwt["id"]]
             )[0]
-            print(user_id)
             self._close(db)
 
             return True
@@ -106,4 +105,29 @@ WHERE
             self._close(db)
             return False
         
+    def get_scores(self):
+        db, cursor = self._connect()
+        scores = self._execute_query(
+            db, cursor,
+                """
+SELECT 
+    B.id,
+    B.benchmark_name,
+    B.unit,
+    count(S.id) AS attempts,
+    COALESCE(AVG(S.value), - 1) AS avg,
+    COALESCE(MIN(S.value), - 1) AS min,
+    COALESCE(MAX(S.value), - 1) AS max
+FROM
+    benchmarks B
+        LEFT JOIN
+    (SELECT * FROM scores WHERE user_id = %s) S 
+        ON S.benchmark_id = B.id
+GROUP BY B.id
+ORDER BY B.benchmark_name;""", 
+            [self.id]
+        )
+        self._close(db)
+
+        return scores
 

@@ -35,14 +35,13 @@ const App = () => {
               {token === null ? (
                 <Login />
               ) : (
-                <Box className="App" display="flex" height="100%">
-                  <Sidebar setExpanded={setExpanded} />
-                  <Box>
-                    <Topbar />
+                <Box className="App" height="100%">
+                  <Topbar />
+                  <Box display="flex" >
+                    <Sidebar setExpanded={setExpanded} />
                     <Box 
                       className="content" 
                       style={{ 
-                        padding: "25px",
                         width: `calc(100vw - ${expanded ? '85px' : '275px'})`, 
                         minHeight: "calc(100vh - 54px)" 
                       }}
