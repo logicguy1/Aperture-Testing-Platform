@@ -26,7 +26,7 @@ const columns = [
       if (params.aggregation && !params.aggregation.hasCellUnit) {
         return params.formattedValue;
       }
-      return params.formattedValue != -1 ? parseInt(params.formattedValue) : "";
+      return params.formattedValue != -1 ? parseInt(params.formattedValue) + " " + params.row.unit : "";
     },
   },
   {
@@ -38,7 +38,7 @@ const columns = [
       if (params.aggregation && !params.aggregation.hasCellUnit) {
         return params.formattedValue;
       }
-      return params.formattedValue !== -1 ? parseInt(params.formattedValue) : "";
+      return params.formattedValue !== -1 ? parseInt(params.formattedValue) + " " + params.row.unit : "";
     },
   },
   {
@@ -50,7 +50,7 @@ const columns = [
       if (params.aggregation && !params.aggregation.hasCellUnit) {
         return params.formattedValue;
       }
-      return params.formattedValue !== -1 ? parseInt(params.formattedValue) : "";
+      return params.formattedValue !== -1 ? parseInt(params.formattedValue) + " " + params.row.unit : "";
     },
   },
   {
@@ -66,6 +66,63 @@ const columns = [
     },
   }
 ];
+const columns2 = [
+  {
+    field: 'rank',
+    headerName: 'Rank',
+    editable: false,
+    flex: 0.2,
+  },
+  {
+    field: 'username',
+    headerName: 'Navn',
+    editable: false,
+    flex: 1,
+  },
+  {
+    field: 'normalised_value',
+    headerName: 'Normalisation',
+    editable: false,
+    flex: 0.5,
+  },
+  {
+    field: 'Reaction speed',
+    headerName: 'Reaction speed',
+    editable: false,
+    flex: 0.5,
+  },
+  {
+    field: 'Typing speed',
+    headerName: 'Typing speed',
+    editable: false,
+    flex: 0.5,
+  },
+  {
+    field: 'Word memory',
+    headerName: 'Word memory',
+    editable: false,
+    flex: 0.5,
+  },
+  {
+    field: 'Simon sais',
+    headerName: 'Simon sais',
+    editable: false,
+    flex: 0.5,
+  },
+  {
+    field: 'Aim speed',
+    headerName: 'Aim speed',
+    editable: false,
+    flex: 0.5,
+  },
+  {
+    field: 'Number memory',
+    headerName: 'Number memory',
+    editable: false,
+    flex: 0.5,
+  },
+];
+
 
 const Index = () => {
   const theme = useTheme();
@@ -113,7 +170,7 @@ const Index = () => {
       >
         <Box 
           position="absolute"
-          left="20em"
+          left="15%"
           top="8em"
           display="flex"
           gap="2em"
@@ -181,7 +238,7 @@ const Index = () => {
                 outline: "none !important",
               },
               "& .empty": {
-                backgroundColor: colors.grey[900]+"55",
+                backgroundColor: colors.primary[400]+"95",
               }
             }}
             getCellClassName={(params) => {
@@ -195,9 +252,36 @@ const Index = () => {
           />
         </Box>
         <Box flex="1">
-          <Typography variant="h5">
+          <Typography variant="h5" pb="1em">
             Leaderboards
           </Typography>
+          <DataGrid
+            rows={data?.high_scores === undefined ? [] : data.high_scores}
+            columns={columns2}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 20,
+                },
+              },
+            }}
+            density="compact"
+            pageSizeOptions={[20, 50, 100]}
+            disableRowSelectionOnClick
+            disableSelectionOnClick
+            sx={{
+              "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
+                outline: "none !important",
+              },
+              "& .empty": {
+                backgroundColor: colors.primary[400]+"95",
+                color: colors.primary[400]+"95",
+              }
+            }}
+            getCellClassName={(params) => {
+              return params.value == -1 || params.value === null ? 'empty' : '';
+            }}
+          />
         </Box>
       </Box>
     </>

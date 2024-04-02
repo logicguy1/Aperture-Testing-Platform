@@ -12,6 +12,8 @@ import Login from "./scenes/login/login";
 
 import Index from './scenes/index';
 
+import AimGame from './scenes/games/aim';
+
 import Sidebar from "./scenes/global/sidebar.jsx";
 import Topbar from "./scenes/global/topbar.jsx";
 
@@ -50,6 +52,8 @@ const App = () => {
                     >
                       <Routes>
                         <Route path="/" element={<Index />} />
+
+                        <Route path="/games/aim" element={<AimGame />} />
                       </Routes>
                     </Box>
                   </Box>

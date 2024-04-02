@@ -37,6 +37,9 @@ app.register_blueprint(auth_bp, url_prefix="/auth")
 from routes.dashboard import bp as dash_bp
 app.register_blueprint(dash_bp, url_prefix="/dashboard")
 
+from routes.benchmarks import bp as benchmark_bp
+app.register_blueprint(benchmark_bp, url_prefix="/benchmarks")
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)
 

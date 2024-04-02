@@ -25,7 +25,7 @@ class DatabaseManager(ABC):
         db: mysql.connector.connection.MySQLConnection, 
         cursor: mysql.connector.connection_cext.CMySQLConnection, 
         sql: str, 
-        vals: List[Any]
+        vals: List[Any] = []
     ) -> List[Any]:
         cursor.execute(sql, vals)
         result = cursor.fetchall()
@@ -37,7 +37,7 @@ class DatabaseManager(ABC):
         db: mysql.connector.connection.MySQLConnection, 
         cursor: mysql.connector.connection_cext.CMySQLConnection, 
         sql: str, 
-        vals: List[Any]
+        vals: List[Any] = []
     ) -> None:
         cursor.execute(sql, vals)
         db.commit()
