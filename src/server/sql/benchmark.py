@@ -9,6 +9,8 @@ class Benchmark(DatabaseManager):
         self.id: int = id
         self.name = ""
         self.unit = ""
+        self.data_range = 0
+        self.data_cutoff = 0
 
         # The constructor should not run with invalid IDs
         if id == -1:
@@ -19,13 +21,15 @@ class Benchmark(DatabaseManager):
         # Get information about the user
         benchmark_info = self._execute_query(
             db, cursor,
-            "SELECT benchmark_name, unit FROM benchmarks WHERE id = %s", 
+            "SELECT benchmark_name, unit, data_range, data_cutoff FROM benchmarks WHERE id = %s", 
             [id]
         )[0]
 
         # Save the information in the object
         self.name = benchmark_info["benchmark_name"]
         self.unit = benchmark_info["unit"]
+        self.data_range = benchmark_info["data_range"]
+        self.data_cutoff = benchmark_info["data_cutoff"]
 
         # Close the database connection
         self._close(db)
@@ -77,3 +81,46 @@ LIMIT 50;""")
         self._close(db)
 
         return data
+
+    def get_bell(self, user_id: int = -1) -> List[Dict[str, Any]]:
+        db, cursor = self._connect()
+
+        world_data = self._execute_query(
+            db, cursor,
+        """
+WITH RECURSIVE NumberSeries AS (
+  SELECT %s AS value
+  UNION ALL
+  SELECT value + %s
+  FROM NumberSeries
+  WHERE value < %s
+)
+SELECT NumberSeries.value, COUNT(scores.value) / (SELECT count(*) FROM scores WHERE scores.benchmark_id=%s) * 100 AS count, COUNT(scores.value) as count_amount
+FROM NumberSeries
+LEFT JOIN (SELECT * FROM scores WHERE benchmark_id = %s) AS scores ON scores.value >= NumberSeries.value AND scores.value < NumberSeries.value +%s 
+GROUP BY NumberSeries.value
+ORDER BY NumberSeries.value;""",
+        [self.data_range, self.data_range, self.data_cutoff, self.id, self.id, self.data_range])
+
+        user_data = self._execute_query(
+            db, cursor,
+        """
+WITH RECURSIVE NumberSeries AS (
+  SELECT %s AS value
+  UNION ALL
+  SELECT value + %s
+  FROM NumberSeries
+  WHERE value < %s
+)
+SELECT NumberSeries.value, COUNT(scores.value) / (SELECT count(*) FROM scores WHERE scores.benchmark_id=%s AND scores.user_id = %s) * 100 AS count, COUNT(scores.value) as count_amount
+FROM NumberSeries
+LEFT JOIN (SELECT * FROM scores WHERE benchmark_id = %s AND user_id = %s) AS scores ON scores.value >= NumberSeries.value AND scores.value < NumberSeries.value + %s
+GROUP BY NumberSeries.value
+ORDER BY NumberSeries.value;""",
+        [self.data_range, self.data_range, self.data_cutoff, self.id, user_id, self.id, user_id, self.data_range])
+        self._close(db)
+
+        return {
+            "world": world_data,
+            "user": user_data,
+        }

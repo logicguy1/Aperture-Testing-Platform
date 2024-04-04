@@ -6,6 +6,17 @@ from sql.user import User
 from sql.benchmark import Benchmark
 
 
+@bp.route('/get', methods=["POST"])
+def get_data():
+    user_id = JWTHandler().decode(request.cookies.get('authorization'))["id"]
+    benchmark_id = request.json["id"]
+
+    benchmark = Benchmark(benchmark_id)
+    bell = benchmark.get_bell(user_id)
+    print(bell)
+
+    return jsonify({"status": True, "message": "Fetched data", "data": {"bell": bell}})
+
 @bp.route('/save', methods=["POST"])
 def save():
     user_id = JWTHandler().decode(request.cookies.get('authorization'))["id"]

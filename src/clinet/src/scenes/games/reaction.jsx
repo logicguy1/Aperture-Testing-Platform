@@ -9,42 +9,19 @@ import { HeadContext } from "../../context/HeadContext";
 
 import config from "../../config";
 
-const Circ = ({ pos, active, onClick }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
-  return (
-    <Box 
-      height={`${pos.size}%`} 
-      width="auto"
-      borderRadius="1000px"
-      backgroundColor={!active ? colors.redAccent[500] : colors.greenAccent[500]}
-      position="absolute"
-      top={`${pos.y}%`}
-      left={`${pos.x}%`}
-      onClick={onClick}
-      style={{
-        cursor: "pointer",
-        aspectRatio: "1 / 1"
-      }}
-    >
-    </Box>
-  )
-}
-
-const AimGame = () => {
+const ReactionGame = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const auth = useContext(AuthContext);
   const head = useContext(HeadContext);
 
-  const [ balls, setBalls ] = useState([]);
+  const [ scores, setScores ] = useState([]);
   const [ turn, setTurn ] = useState(0);
-  const [ score, setScore ] = useState(0);
   const [ startTime, setStartTime ] = useState(-1);
   const [ isStarted, setIsStarted ] = useState(false);
   const [ isShowenSplash, setIsShowenSplash ] = useState(true);
+  const [ isClicked, setIsClicked ] = useState(false);
 
   const [ bell, setBell ] = useState({world: [], user: []});
 
@@ -66,7 +43,7 @@ const AimGame = () => {
         },
         credentials: 'include',
         body: JSON.stringify({
-          id: 3,
+          id: 2,
         })
       }
     ).then(response => {
@@ -82,7 +59,7 @@ const AimGame = () => {
 
   // Save the users score
   useEffect(() => {
-    if (turn === 5) {
+    if (scores.length === 5) {
       setIsStarted(false);
       fetch(
         `${config.baseurl}/benchmarks/save`,
@@ -93,8 +70,8 @@ const AimGame = () => {
           },
           credentials: 'include',
           body: JSON.stringify({
-            id: 3,
-            score: ((+new Date() - startTime) / 5)
+            id: 2,
+            score: scores.reduce((a, b) => a + b) / scores.length
           })
         }
       ).then(response => {
@@ -104,49 +81,15 @@ const AimGame = () => {
         return response.json(); // Parse the response JSON
       })
     }
-  }, [turn])
+  }, [scores])
 
-  // Generate the balls when they all have been clicked
-  useEffect(() => {
-    setScore(turn*5 + balls.filter(i => i.active).length);
-    if (balls.every(i => i.active)) {
-      setTurn(turn+1);
-      // Generate a list of balls
-      let newPos, newSize, overlapping;
-      let tmpBalls = [];
-      let attempts = 0;
- 
-      for (let i = 0; i < 5; i++) {
-        do {
-          // Generate random position and size for the ball
-          newPos = {
-            x: Math.random() * 100,
-            y: Math.random() * 100
-          };
-          newSize = Math.random() * 10+12;
-
-          // Check if the newly generated ball overlaps with any existing ball
-          overlapping = tmpBalls.some(ball => {
-            const dx = newPos.x - ball.pos.x;
-            const dy = newPos.y - ball.pos.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const minDistance = newSize + ball.pos.size / 2;
-            return distance < minDistance;
-          });
-          attempts++;
-          // Repeat the process until the ball doesn't overlap with any existing ball
-        } while (overlapping && attempts < 100);
-        if (attempts < 100) {
-          tmpBalls.push({
-            idx: i,
-            pos: { ...newPos, size: newSize },
-            active: false
-          });
-        }
-      }
-      setBalls(tmpBalls);
-    }
-  }, [balls])
+  const run_level = () => {
+    setIsClicked(false);
+    setTimeout(() => {
+      setIsClicked(true);
+      setStartTime(+new Date());
+    }, 3000)
+  }
 
   if (isShowenSplash) {
       return <>
@@ -159,8 +102,8 @@ const AimGame = () => {
               height="255px" 
               backgroundColor={colors.primary[400]}
             >
-              <Typography variant="h1" pb="20px">Aim game</Typography>
-              <Typography>The goal of the aimgame is to test your hand eye coordination skills, click the 5 targets showen as fast as posible, your final score is the average time it takes you to clear a screen.</Typography>
+              <Typography variant="h1" pb="20px">Reaction game</Typography>
+              <Typography>The reaction game is about testing your reactions speed, when the screen becomes green, click it, and your score is noted</Typography>
             </Box>
             <Box 
               sx={{ boxShadow: 1 }}
@@ -198,7 +141,7 @@ const AimGame = () => {
   }
   
   // The game is over
-  if (turn === 5) {
+  if (scores.length === 5) {
     return (
       <>
         <Box display="flex" alignItems="center" justifyContent="center" flex="1" flexDirection="column">
@@ -211,9 +154,9 @@ const AimGame = () => {
             alignItems="center"
             justifyContent="center"
             style={{ cursor: "pointer" }}
-            onClick={() => {setTurn(0); setScore(0); setIsStarted(true)}}
+            onClick={() => {setScores([]); run_level(); setIsStarted(true)}}
           >
-            <Typography variant="h1">{(+new Date() - startTime) / 5} ms</Typography>
+            <Typography variant="h1">{scores.reduce((a, b) => a + b) / scores.length} ms</Typography>
           </Box>
         </Box>
       </>
@@ -234,7 +177,7 @@ const AimGame = () => {
             alignItems="center"
             justifyContent="center"
             style={{ cursor: "pointer" }}
-            onClick={() => {setIsStarted(true)}}
+            onClick={() => {setIsStarted(true); run_level(); }}
           >
             <Typography variant="h1">Start</Typography>
           </Box>
@@ -247,29 +190,25 @@ const AimGame = () => {
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="center" flex="1" flexDirection="column">
-        <Typography>{turn}-{score} {+new Date() - startTime} ms</Typography>
+        <Typography>{scores.length} {+new Date() - startTime} ms</Typography>
         <Box 
           p="0 75px 75px 0"
-            sx={{ boxShadow: 1 }}
-            width="1135px" 
-            height="755px" 
+          sx={{ boxShadow: 1 }}
+          width="1135px" 
+          height="755px" 
+          backgroundColor={!isClicked ? colors.redAccent[400] : colors.greenAccent[400]}
+          onClick={() => {
+            if (isClicked) {
+              setScores([...scores, +new Date() - startTime]); setIsClicked(false); run_level()
+            } else {
+              alert("no u")
+            }
+          }}
         >
-          <Box 
-            width="1000px" 
-            height="600px" 
-            display="flex" 
-            justifyContent="space-evenly" 
-            alignItems="space-evenly" 
-            position="relative"
-          >
-            {balls.map((i) => (
-              <Circ key={i.idx} pos={i.pos} active={i.active} onClick={() => {setBalls([ ...balls.filter((ball) => (ball !== i)), {...i, active: true} ])}} />
-            ))}
-          </Box>
         </Box>
       </Box>
     </>
   )
 }
 
-export default AimGame;
+export default ReactionGame;
