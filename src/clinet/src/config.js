@@ -1,5 +1,5 @@
 const config = {
-  baseurl: "http://localhost:8080",
+  baseurl: "http://localhost/api",
   days: 3
 };
 

@@ -40,6 +40,9 @@ app.register_blueprint(dash_bp, url_prefix="/dashboard")
 from routes.benchmarks import bp as benchmark_bp
 app.register_blueprint(benchmark_bp, url_prefix="/benchmarks")
 
+from routes.friends import bp as friends_bp
+app.register_blueprint(friends_bp, url_prefix="/friends")
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)
 

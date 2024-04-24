@@ -18,6 +18,8 @@ import ReactionGame from './scenes/games/reaction';
 import Sidebar from "./scenes/global/sidebar.jsx";
 import Topbar from "./scenes/global/topbar.jsx";
 
+import Settings from "./scenes/settings/settings.jsx"
+
 const App = () => { 
   const [theme, colorMode] = useMode();
   const [token, setToken] = useState(null);
@@ -53,7 +55,7 @@ const App = () => {
                     >
                       <Routes>
                         <Route path="/" element={<Index />} />
-
+                        <Route path="/settings" element={<Settings/>} />
                         <Route path="/games/aim" element={<AimGame />} />
                         <Route path="/games/reaction" element={<ReactionGame />} />
                       </Routes>

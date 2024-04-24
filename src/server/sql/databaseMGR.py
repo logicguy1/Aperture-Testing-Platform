@@ -6,8 +6,8 @@ from abc import ABC, abstractmethod
 class DatabaseManager(ABC):
     schema: str = "apeture"
     host: str = "localhost"
-    user: str = "drill"
-    password: str = "test123"
+    user: str = "admin"
+    password: str = "password"
 
     def _connect(self) -> Tuple[mysql.connector.connection.MySQLConnection, mysql.connector.connection_cext.CMySQLConnection]:
         db = mysql.connector.connect(
