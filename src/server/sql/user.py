@@ -60,7 +60,18 @@ class User(DatabaseManager):
         except IndexError:
             self._close(db)
             return User(-1)
-            
+    def register(self, username: str, email: str, password: str):
+        db, cursor = self._connect()
+
+        try:
+            self._commit_data(db, cursor, "INSERT INTO users (username, email, password) VALUES(%s, %s, %s);", [username, email, password])
+            self._close(db)
+            return True
+        except IndexError:
+            self._close(db)
+            return False
+
+
     def generate_jwt(self) -> str:
         # Generate the jwt token
         jwt = JWTHandler().encode({

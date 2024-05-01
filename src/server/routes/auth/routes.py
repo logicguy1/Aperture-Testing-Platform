@@ -35,3 +35,19 @@ def login():
 def logout():
     return jsonify({"status": True, "message": "User has been logged out"})
 
+@bp.route('/register', methods=["POST"])
+def register():
+    username = request.json['user']
+    email = request.json['email']
+    password = request.json['pass']
+
+    user = User(-1)
+
+    if user.register(username, email, password):
+         return jsonify({"status": True, "message": "God has made the user exist"})
+    
+
+    return jsonify({"status": False, "message": "God has not made the user exist"})
+
+
+

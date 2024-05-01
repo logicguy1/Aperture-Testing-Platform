@@ -7,7 +7,8 @@ from sql.user import User
 app = Flask(__name__)
 allowed_endpoints = [
     "/auth/login",
-    "/static"
+    "/static",
+    "/auth/register"
 ]
 
 @app.before_request

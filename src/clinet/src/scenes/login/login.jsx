@@ -18,6 +18,8 @@ const Login = () => {
 
   const [user, setUser] = useState();
   const [pass, setPass] = useState();
+  const [email, setEmail] = useState();
+  const [isSignin, setSignin] = useState(true);
 
   const handleLogin = () => {
     console.log(user, pass);
@@ -40,25 +42,61 @@ const Login = () => {
       }
       return response.json(); // Parse the response JSON
     })
-    .then(data => {
-      // Handle the response data here
-      console.log(data);
-      if (data.status) {
-        auth.setToken(data)
-        navigate("/");
-      } else {
-        alert("Invalid login.")
+      .then(data => {
+        // Handle the response data here
+        console.log(data);
+        if (data.status) {
+          auth.setToken(data)
+          navigate("/");
+        } else {
+          alert("Invalid login.")
+        }
+      })
+      .catch(error => {
+        // Handle any errors that occurred during the fetch
+        alert('Fetch error:', error);
+      });
+  }
+  const handleRegister = () => {
+    console.log(user, pass);
+    fetch(
+      `${config.baseurl}/auth/register`,
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          user: user,
+          email: email,
+          pass: pass,
+        })
       }
+    ).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Parse the response JSON
     })
-    .catch(error => {
-      // Handle any errors that occurred during the fetch
-      alert('Fetch error:', error);
-    });
+      .then(data => {
+        // Handle the response data here
+        console.log(data);
+        alert(data.message)
+        if (data.status) {
+          setSignin(true)
+        } else {
+        }
+      })
+      .catch(error => {
+        // Handle any errors that occurred during the fetch
+        alert('Fetch error:', error);
+      });
   }
 
   return (
     <>
-      <Box 
+      <Box
         style={{
           position: "absolute",
           top: 0,
@@ -69,13 +107,13 @@ const Login = () => {
         }}
       />
       <Card variant="outlined"
-        style={{ 
-          transform: "translate(-50%, -50%)" ,
+        style={{
+          transform: "translate(-50%, -50%)",
           boxSizing: "border-box",
           position: "absolute",
           left: "50%",
           top: "50%",
-          padding: "40px" ,
+          padding: "40px",
           height: "500px",
           width: "400px",
         }}
@@ -96,15 +134,7 @@ const Login = () => {
               color={colors.grey[100]}
               textAlign="left"
             >
-               Aperture Testing Platform
-            </Typography>
-            <Typography
-              variant="h6"
-              fontWeight="500"
-              color={colors.grey[100]}
-              textAlign="left"
-            >
-               Log Ind
+              Aperture Testing Platform
             </Typography>
           </Box>
 
@@ -112,50 +142,109 @@ const Login = () => {
             position="absolute"
             left="50%"
             top="50%"
-            style={{ 
-              transform: "translate(-50%, -50%)" ,
+            style={{
+              transform: "translate(-50%, -50%)",
             }}
           >
-            <form onSubmit={(e) => {e.preventDefault(); handleLogin()}}>
-              <Box
-                width="100%"
-              >
-                <TextField 
-                  id="standard-basic" 
-                  label="Brugernavn" 
-                  variant="standard" 
-                  onChange={event => setUser(event.target.value)} 
-                  style={{
-                    width: "300px",
-                    marginTop: "15px"
-                  }}
-                />
-                <br />
-                <TextField 
-                  id="standard-basic" 
-                  label="Adgangskode" 
-                  variant="standard" 
-                  type="password" 
-                  onChange={event => setPass(event.target.value)} 
-                  style={{
-                    width: "300px",
-                    marginTop: "15px",
-                    marginBottom: "23px"
-                  }}
-                />
-                <br />
-                <Button 
-                  style={{ width: "300px", height: "45px", backgroundColor:"black" }} 
-                  variant="contained" 
-                  type="submit"
+            {isSignin ? (
+              <form onSubmit={(e) => { e.preventDefault(); handleLogin() }}>
+                <Box
+                  width="100%"
                 >
-                  Log Ind
-                </Button>
-              </Box>
-            </form>
+                  <TextField
+                    id="standard-basic"
+                    label="Brugernavn"
+                    variant="standard"
+                    onChange={event => setUser(event.target.value)}
+                    style={{
+                      width: "300px",
+                      marginTop: "15px"
+                    }}
+                  />
+                  <br />
+                  <TextField
+                    id="standard-basic"
+                    label="Adgangskode"
+                    variant="standard"
+                    type="password"
+                    onChange={event => setPass(event.target.value)}
+                    style={{
+                      width: "300px",
+                      marginTop: "15px",
+                      marginBottom: "23px"
+                    }}
+                  />
+                  <br />
+                  <Button
+                    style={{ width: "300px", height: "45px", backgroundColor: "black" }}
+                    variant="contained"
+                    type="submit"
+                  >
+                    Log Ind
+                  </Button>
+                </Box>
+              </form>
+            ) : ( // Handle register
+              <form onSubmit={(e) => { e.preventDefault(); handleRegister() }}>
+                <Box
+                  width="100%"
+                >
+                  <TextField
+                    id="standard-basic"
+                    label="Brugernavn"
+                    variant="standard"
+                    onChange={event => setUser(event.target.value)}
+                    style={{
+                      width: "300px",
+                      marginTop: "15px"
+                    }}
+                  />
+                  <br />
+                  <TextField
+                    id="standard-basic"
+                    label="Electronic mail adress"
+                    variant="standard"
+                    onChange={event => setEmail(event.target.value)}
+                    style={{
+                      width: "300px",
+                      marginTop: "15px"
+                    }}
+                  />
+                  <br />
+                  <TextField
+                    id="standard-basic"
+                    label="Adgangskode"
+                    variant="standard"
+                    type="password"
+                    onChange={event => setPass(event.target.value)}
+                    style={{
+                      width: "300px",
+                      marginTop: "15px",
+                      marginBottom: "23px"
+                    }}
+                  />
+                  <br />
+                  <Button
+                    style={{ width: "300px", height: "45px", backgroundColor: "black" }}
+                    variant="contained"
+                    type="submit"
+                  >
+                    Register
+                  </Button>
+                </Box>
+              </form>
+            )}
           </Box>
         </Box>
 
+        <Typography
+          variant="h6"
+          fontWeight="500"
+          color={colors.grey[100]}
+          textAlign="left"
+        >
+          Click here to change to {isSignin ? (<Button onClick={() => setSignin(false)} >Register</Button>) : (<Button onClick={() => setSignin(true)} >Sign in</Button>)}
+        </Typography>
       </Card>
     </>
   )

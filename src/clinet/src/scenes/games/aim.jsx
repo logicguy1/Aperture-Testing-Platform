@@ -14,8 +14,8 @@ const Circ = ({ pos, active, onClick }) => {
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Box 
-      height={`${pos.size}%`} 
+    <Box
+      height={`${pos.size}%`}
       width="auto"
       borderRadius="1000px"
       backgroundColor={!active ? colors.redAccent[500] : colors.greenAccent[500]}
@@ -39,14 +39,14 @@ const AimGame = () => {
   const auth = useContext(AuthContext);
   const head = useContext(HeadContext);
 
-  const [ balls, setBalls ] = useState([]);
-  const [ turn, setTurn ] = useState(0);
-  const [ score, setScore ] = useState(0);
-  const [ startTime, setStartTime ] = useState(-1);
-  const [ isStarted, setIsStarted ] = useState(false);
-  const [ isShowenSplash, setIsShowenSplash ] = useState(true);
+  const [balls, setBalls] = useState([]);
+  const [turn, setTurn] = useState(0);
+  const [score, setScore] = useState(0);
+  const [startTime, setStartTime] = useState(-1);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isShowenSplash, setIsShowenSplash] = useState(true);
 
-  const [ bell, setBell ] = useState({world: [], user: []});
+  const [bell, setBell] = useState({ world: [], user: [], friends: [] });
 
   // Sets the start time when the game starts
   useEffect(() => {
@@ -54,7 +54,7 @@ const AimGame = () => {
       setStartTime(+new Date());
     }
   }, [isStarted])
-  
+
   // Get the bell
   useEffect(() => {
     fetch(
@@ -75,9 +75,9 @@ const AimGame = () => {
       }
       return response.json(); // Parse the response JSON
     }).then(data => {
-        console.log(data)
-        setBell(data.data.bell);
-      })
+      console.log(data)
+      setBell(data.data.bell);
+    })
   }, [])
 
   // Save the users score
@@ -108,14 +108,14 @@ const AimGame = () => {
 
   // Generate the balls when they all have been clicked
   useEffect(() => {
-    setScore(turn*5 + balls.filter(i => i.active).length);
+    setScore(turn * 5 + balls.filter(i => i.active).length);
     if (balls.every(i => i.active)) {
-      setTurn(turn+1);
+      setTurn(turn + 1);
       // Generate a list of balls
       let newPos, newSize, overlapping;
       let tmpBalls = [];
       let attempts = 0;
- 
+
       for (let i = 0; i < 5; i++) {
         do {
           // Generate random position and size for the ball
@@ -123,7 +123,7 @@ const AimGame = () => {
             x: Math.random() * 100,
             y: Math.random() * 100
           };
-          newSize = Math.random() * 10+12;
+          newSize = Math.random() * 10 + 12;
 
           // Check if the newly generated ball overlaps with any existing ball
           overlapping = tmpBalls.some(ball => {
@@ -149,69 +149,74 @@ const AimGame = () => {
   }, [balls])
 
   if (isShowenSplash) {
-      return <>
-        <Box display="flex" alignItems="center" justifyContent="center" flex="1" gap="2em" flexDirection="column">
-          <Box display="flex" gap="2em">
-            <Box 
-              sx={{ boxShadow: 1 }}
-              p="2em"
-              width="435px" 
-              height="255px" 
-              backgroundColor={colors.primary[400]}
-            >
-              <Typography variant="h1" pb="20px">Aim game</Typography>
-              <Typography>The goal of the aimgame is to test your hand eye coordination skills, click the 5 targets showen as fast as posible, your final score is the average time it takes you to clear a screen.</Typography>
-            </Box>
-            <Box 
-              sx={{ boxShadow: 1 }}
-              width="435px" 
-              height="255px" 
-              backgroundColor={colors.greenAccent[500]}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              style={{ cursor: "pointer" }}
-              onClick={() => {setIsShowenSplash(false)}}
-            >
-              <Typography variant="h1">Get started</Typography>
-            </Box>
-          </Box>
-          <Box width="900px" height="250px">
-            <LineChart
-              xAxis={[{ data: bell.world.map(i => i.value), angle: 80, textAnchor: 'start', }]}
-              series={[
-                {
-                  data: bell.world.map(i => i.count),
-                  showMark: false,
-                  label: "% the world",
-                },
-                {
-                  data: bell.user.map(i => i.count),
-                  showMark: false,
-                  label: "% the you",
-                },
-              ]}
-            />
-          </Box>
-        </Box>
-      </>
-  }
-  
-  // The game is over
-  if (turn === 5) {
-    return (
-      <>
-        <Box display="flex" alignItems="center" justifyContent="center" flex="1" flexDirection="column">
-          <Box 
+    return <>
+      <Box display="flex" alignItems="center" justifyContent="center" flex="1" gap="2em" flexDirection="column">
+        <Box display="flex" gap="2em">
+          <Box
             sx={{ boxShadow: 1 }}
-            width="1135px" 
-            height="755px" 
+            p="2em"
+            width="435px"
+            height="255px"
+            backgroundColor={colors.primary[400]}
+          >
+            <Typography variant="h1" pb="20px">Aim game</Typography>
+            <Typography>The goal of the aimgame is to test your hand eye coordination skills, click the 5 targets showen as fast as posible, your final score is the average time it takes you to clear a screen.</Typography>
+          </Box>
+          <Box
+            sx={{ boxShadow: 1 }}
+            width="435px"
+            height="255px"
             backgroundColor={colors.greenAccent[500]}
             display="flex"
             alignItems="center"
             justifyContent="center"
             style={{ cursor: "pointer" }}
-            onClick={() => {setTurn(0); setScore(0); setIsStarted(true)}}
+            onClick={() => { setIsShowenSplash(false) }}
+          >
+            <Typography variant="h1">Get started</Typography>
+          </Box>
+        </Box>
+        <Box width="900px" height="250px">
+          <LineChart
+            xAxis={[{ data: bell.world.map(i => i.value), angle: 80, textAnchor: 'start', }]}
+            series={[
+              {
+                data: bell.world.map(i => i.count),
+                showMark: false,
+                label: "% the world",
+              },
+              {
+                data: bell.user.map(i => i.count),
+                showMark: false,
+                label: "% the you",
+              },
+              {
+                data: bell.friends.map(i => i.count),
+                showMark: false,
+                label: "% of friends",
+              },
+            ]}
+          />
+        </Box>
+      </Box>
+    </>
+  }
+
+  // The game is over
+  if (turn === 5) {
+    return (
+      <>
+        <Box display="flex" alignItems="center" justifyContent="center" flex="1" flexDirection="column">
+          <Box
+            sx={{ boxShadow: 1 }}
+            width="1135px"
+            height="755px"
+            backgroundColor={colors.greenAccent[500]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            style={{ cursor: "pointer" }}
+            onClick={() => { setTurn(0); setScore(0); setIsStarted(true) }}
           >
             <Typography variant="h1">{(+new Date() - startTime) / 5} ms</Typography>
           </Box>
@@ -225,16 +230,16 @@ const AimGame = () => {
     return (
       <>
         <Box display="flex" alignItems="center" justifyContent="center" flex="1" flexDirection="column">
-          <Box 
+          <Box
             sx={{ boxShadow: 1 }}
-            width="1135px" 
-            height="755px" 
+            width="1135px"
+            height="755px"
             backgroundColor={colors.greenAccent[500]}
             display="flex"
             alignItems="center"
             justifyContent="center"
             style={{ cursor: "pointer" }}
-            onClick={() => {setIsStarted(true)}}
+            onClick={() => { setIsStarted(true) }}
           >
             <Typography variant="h1">Start</Typography>
           </Box>
@@ -248,22 +253,22 @@ const AimGame = () => {
     <>
       <Box display="flex" alignItems="center" justifyContent="center" flex="1" flexDirection="column">
         <Typography>{turn}-{score} {+new Date() - startTime} ms</Typography>
-        <Box 
+        <Box
           p="0 75px 75px 0"
-            sx={{ boxShadow: 1 }}
-            width="1135px" 
-            height="755px" 
+          sx={{ boxShadow: 1 }}
+          width="1135px"
+          height="755px"
         >
-          <Box 
-            width="1000px" 
-            height="600px" 
-            display="flex" 
-            justifyContent="space-evenly" 
-            alignItems="space-evenly" 
+          <Box
+            width="1000px"
+            height="600px"
+            display="flex"
+            justifyContent="space-evenly"
+            alignItems="space-evenly"
             position="relative"
           >
             {balls.map((i) => (
-              <Circ key={i.idx} pos={i.pos} active={i.active} onClick={() => {setBalls([ ...balls.filter((ball) => (ball !== i)), {...i, active: true} ])}} />
+              <Circ key={i.idx} pos={i.pos} active={i.active} onClick={() => { setBalls([...balls.filter((ball) => (ball !== i)), { ...i, active: true }]) }} />
             ))}
           </Box>
         </Box>

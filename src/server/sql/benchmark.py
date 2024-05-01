@@ -118,9 +118,28 @@ LEFT JOIN (SELECT * FROM scores WHERE benchmark_id = %s AND user_id = %s) AS sco
 GROUP BY NumberSeries.value
 ORDER BY NumberSeries.value;""",
         [self.data_range, self.data_range, self.data_cutoff, self.id, user_id, self.id, user_id, self.data_range])
-        self._close(db)
 
+        friend_data = self._execute_query(
+            db, cursor,
+        """
+WITH RECURSIVE NumberSeries AS (
+  SELECT %s AS value
+  UNION ALL
+  SELECT value + %s
+  FROM NumberSeries
+  WHERE value < %s
+)
+SELECT NumberSeries.value, COUNT(scores.value) / (SELECT count(scores.value) FROM scores, friends WHERE scores.benchmark_id = %s AND ((%s = friends.user_id_1 AND friends.user_id_2 = scores.user_id)OR(%s = friends.user_id_2 AND friends.user_id_1 = scores.user_id)) ) * 100 AS count, COUNT(scores.value) as count_amount
+FROM NumberSeries
+LEFT JOIN (SELECT scores.id, scores.benchmark_id, scores.user_id, scores.value, scores.create_time  FROM scores, friends WHERE scores.benchmark_id = %s AND ((%s = friends.user_id_1 AND friends.user_id_2 = scores.user_id)OR(%s = friends.user_id_2 AND friends.user_id_1 = scores.user_id))) AS scores ON scores.value >= NumberSeries.value AND scores.value < NumberSeries.value + %s
+GROUP BY NumberSeries.value
+ORDER BY NumberSeries.value;
+        """,
+        [self.data_range, self.data_range, self.data_cutoff, self.id, user_id, user_id, self.id, user_id, user_id, self.data_range])
+
+        self._close(db)
         return {
             "world": world_data,
             "user": user_data,
+            "friends": friend_data,
         }
