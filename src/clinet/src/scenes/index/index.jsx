@@ -93,14 +93,8 @@ const columns2 = [
     flex: 0.5,
   },
   {
-    field: 'Typing speed',
-    headerName: 'Typing speed',
-    editable: false,
-    flex: 0.5,
-  },
-  {
-    field: 'Word memory',
-    headerName: 'Word memory',
+    field: 'Maze solver',
+    headerName: 'Maze solver',
     editable: false,
     flex: 0.5,
   },
