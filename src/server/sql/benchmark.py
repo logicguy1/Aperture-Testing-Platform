@@ -77,7 +77,7 @@ FROM
 JOIN users U ON U.id = S.user_id
 GROUP BY user_id
 ORDER BY normalised_value
-LIMIT 50;""")
+LIMIT 5000;""")
         self._close(db)
 
         return data

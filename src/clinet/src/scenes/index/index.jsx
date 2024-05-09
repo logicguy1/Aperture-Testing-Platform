@@ -5,6 +5,7 @@ import { DataGrid, GridFooter } from '@mui/x-data-grid';
 
 import { AuthContext } from '../../context/AuthContext';
 import { HeadContext } from "../../context/HeadContext";
+import { useNavigate, Link } from "react-router-dom";
 
 import { capitalizeFirstLetter } from "../../utils/strings";
 
@@ -128,6 +129,7 @@ const Index = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const navigate = useNavigate();
   const auth = useContext(AuthContext);
   const head = useContext(HeadContext);
 
@@ -204,6 +206,7 @@ const Index = () => {
             padding: "0 4em",
             borderRadius: "0px"
           }}
+          onClick={() => {navigate("/settings")}}
         >
           Friends
         </Button>
