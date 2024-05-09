@@ -15,6 +15,7 @@ import Index from './scenes/index';
 import AimGame from './scenes/games/aim';
 import ReactionGame from './scenes/games/reaction';
 import NumberGame from './scenes/games/numbers';
+import SimonGame from './scenes/games/simon';
 
 import Sidebar from "./scenes/global/sidebar.jsx";
 import Topbar from "./scenes/global/topbar.jsx";
@@ -60,6 +61,7 @@ const App = () => {
                         <Route path="/games/aim" element={<AimGame />} />
                         <Route path="/games/reaction" element={<ReactionGame />} />
                         <Route path="/games/numbers" element={<NumberGame />} />
+                        <Route path="/games/simon" element={<SimonGame />} />
                       </Routes>
                     </Box>
                   </Box>
