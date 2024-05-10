@@ -1,5 +1,7 @@
 from typing import Dict, List, Tuple, Any, Type
 import datetime
+import hashlib
+import secrets
 
 from sql.databaseMGR import DatabaseManager
 from jwtHandler import JWTHandler
@@ -48,25 +50,45 @@ class User(DatabaseManager):
 
         try:
             # Find the user in the database
-            user_id = self._execute_query(
+            user = self._execute_query(
                 db, cursor,
-                "SELECT id FROM users WHERE username = %s AND password = %s", 
-                [username, password]
+                "SELECT id, password, password_salt FROM users WHERE username = %s", 
+                [username]
             )[0]
             self._close(db)
 
-            return User(user_id["id"])
+            hash = hashlib.sha256()
+            hash.update(password.encode())
+            hash.update(user["password_salt"].encode())
+
+            if hash.hexdigest() == user["password"]:
+                return User(user["id"])
+            else:
+                raise IndexError
+
         # If the login failed
         except IndexError:
             self._close(db)
             return User(-1)
+
     def register(self, username: str, email: str, password: str):
         db, cursor = self._connect()
 
+        salt = secrets.token_hex(nbytes=None)[0:30]
+        hash = hashlib.sha256()
+        hash.update(password.encode())
+        hash.update(salt.encode())
+        password = hash.hexdigest()
+
         try:
-            self._commit_data(db, cursor, "INSERT INTO users (username, email, password) VALUES(%s, %s, %s);", [username, email, password])
+            self._commit_data(
+                db, cursor, 
+                "INSERT INTO users (username, email, password, password_salt) VALUES(%s, %s, %s, %s);", 
+                [username, email, password, salt]
+            )
             self._close(db)
             return True
+
         except IndexError:
             self._close(db)
             return False
