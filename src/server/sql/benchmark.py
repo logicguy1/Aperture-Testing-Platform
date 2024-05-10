@@ -62,22 +62,37 @@ class Benchmark(DatabaseManager):
             db, cursor,
             """
 SELECT 
-    S.user_id,
-    U.username,
-    AVG(S.value / S_SUM.sumValue) AS normalised_value,
-    S.benchmark_id
-FROM
-    scores S
-        JOIN
-    (SELECT 
-        benchmark_id, SUM(value) AS sumValue
-    FROM
-        scores
-    GROUP BY benchmark_id) S_SUM ON S_SUM.benchmark_id = S.benchmark_id
-JOIN users U ON U.id = S.user_id
-GROUP BY user_id
-ORDER BY normalised_value
-LIMIT 5000;""")
+    user_id,
+    (SELECT username FROM users WHERE id=user_id) AS username,
+    AVG(normalized_value) AS normalised_value
+FROM (
+    SELECT 
+        b.id, 
+        u.user_id, 
+        COALESCE(s.value, 0) AS value,
+        CASE 
+            WHEN b.normalisation_vector = 'lower_better' THEN 
+                CASE 
+                    WHEN AVG(s.value) OVER(PARTITION BY b.id) = 0 THEN NULL
+                    ELSE 1 / (COALESCE(s.value, 0) / AVG(s.value) OVER(PARTITION BY b.id))
+                END
+            ELSE 
+                CASE 
+                    WHEN AVG(s.value) OVER(PARTITION BY b.id) = 0 THEN NULL
+                    ELSE COALESCE(s.value, 0) / AVG(s.value) OVER(PARTITION BY b.id)
+                END
+        END AS normalized_value
+    FROM 
+        (SELECT DISTINCT id, normalisation_vector FROM benchmarks) b
+    CROSS JOIN
+        (SELECT DISTINCT user_id FROM scores) u
+    LEFT JOIN 
+        scores s ON s.benchmark_id = b.id AND s.user_id = u.user_id
+) AS subquery
+GROUP BY 
+    user_id
+ORDER BY 
+    user_id;""")
         self._close(db)
 
         return data

@@ -20,7 +20,7 @@ def get_data():
             "scores": User(i["user_id"]).get_scores(),
             "rank": idx + 1,
             "id": i["user_id"]
-        } for idx, i in enumerate(Benchmark(-1).get_scoreboard()[::-1])]
+        } for idx, i in enumerate(Benchmark(-1).get_scoreboard())]
 
     out_scores = []
     for i in high_scores:

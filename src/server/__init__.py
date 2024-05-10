@@ -3,6 +3,9 @@ import time
 
 from jwtHandler import JWTHandler
 from sql.user import User
+from sql.migrator import Migrator
+
+Migrator()
 
 app = Flask(__name__)
 allowed_endpoints = [
