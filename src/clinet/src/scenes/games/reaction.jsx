@@ -104,7 +104,7 @@ const ReactionGame = () => {
           >
             <Typography variant="h1" pb="20px">Reaction game</Typography>
             <Typography>The reaction game is about testing your reactions speed, when the screen becomes green, click it, and your score is noted</Typography>
-          </Box>
+          </Box> 
           <Box
             sx={{ boxShadow: 1 }}
             width="435px"
