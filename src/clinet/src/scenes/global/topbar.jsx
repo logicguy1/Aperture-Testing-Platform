@@ -9,6 +9,7 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import logo from "../../assets/img/aperture-letter-logo.svg"
 
 import { HeadContext } from '../../context/HeadContext';
 import { AuthContext } from '../../context/AuthContext';
@@ -53,21 +54,19 @@ const Topbar = () => {
         {/* TITLE TEXT */}
         <Box display="flex">
           <Box
-            sx={{...headerStyle, paddingLeft: "30px", backgroundColor: colors.blueAccent[400]}}
+            sx={{...headerStyle, paddingLeft: "30px", backgroundColor: "#080942"}}
           >
-            <Typography sx={{transform: "skew(20deg)"}}>
-              Logo
-            </Typography>
+            <img src={logo} alt="Logo" style={{ maxHeight: 40, width: "auto"}} />
           </Box>
           <Box
-            sx={{...headerStyle, left: "139px", backgroundColor: colors.greenAccent[400]}}
+            sx={{...headerStyle, left: "139px", backgroundColor: "#221c69"}}
           >
             <Typography sx={{transform: "skew(20deg)"}}>
               Home
             </Typography>
           </Box>
           <Box
-            sx={{...headerStyle, left: "278px", backgroundColor: colors.redAccent[400], cursor: "pointer"}}
+            sx={{...headerStyle, left: "278px", backgroundColor: "#431c76", cursor: "pointer"}}
             onClick={() => {navigate("/")}}
           >
             <Typography sx={{transform: "skew(20deg)"}}>

@@ -92,7 +92,7 @@ const MazeGame = () => {
   const [turn, setTurn] = useState(0);
   const [isFailed, setIsFailed] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
-  const [isShowenSplash, setIsShowenSplash] = useState(true);
+  const [isShownSplash, setIsShownSplash] = useState(true);
   const [isClicked, setIsClicked] = useState(true);
   const [shownNumber, setShownNumber] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -159,12 +159,12 @@ const MazeGame = () => {
     }
   };
 
-  if (isShowenSplash) {
+  if (isShownSplash) {
     return <Splash
       benchmarkid={7}
-      name="Maze solver"
-      description="This test is to messure your problem solving and pattern recogninsion skills, when the game starts hover your mouse over the green square and get to the red square without touching a wall. Time starts when you are showen the maze"
-      onclick={() => {setIsShowenSplash(false)}} 
+      name="Maze Solver"
+      description="This test is to measure your problem solving and pattern recognition skills, when the game starts hover your mouse over the green square and get to the red square without touching a wall. Time starts when you are shown the maze"
+      onclick={() => {setIsShownSplash(false)}} 
     />
   }
 

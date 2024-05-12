@@ -75,7 +75,7 @@ const SimonGame = () => {
   const [turn, setTurn] = useState(0);
   const [isFailed, setIsFailed] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
-  const [isShowenSplash, setIsShowenSplash] = useState(true);
+  const [isShownSplash, setIsShownSplash] = useState(true);
   const [isClicked, setIsClicked] = useState(true);
   const [shownNumber, setShownNumber] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -122,12 +122,12 @@ const SimonGame = () => {
     }
   }, [selected])
 
-  if (isShowenSplash) {
+  if (isShownSplash) {
     return <Splash
       benchmarkid={6}
-      name="Simon sais"
-      description="Repeat the patterns that appar on the screen"
-      onclick={() => {setIsShowenSplash(false)}} 
+      name="Simon Says"
+      description="The goal of this game is to repeat as many patterns that appear on the screen as possible."
+      onclick={() => {setIsShownSplash(false)}} 
     />
   }
 
@@ -147,7 +147,7 @@ const SimonGame = () => {
             style={{ cursor: "pointer" }}
             onClick={() => {setScore(1); setIsStarted(true); setIsFailed(false)}}
           >
-            <Typography variant="h1">{score} numbers</Typography>
+            <Typography variant="h1">{score} patterns</Typography>
           </Box>
         </Box>
       </>
