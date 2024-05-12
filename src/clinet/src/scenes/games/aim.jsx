@@ -159,8 +159,8 @@ const AimGame = () => {
             height="255px"
             backgroundColor={colors.primary[400]}
           >
-            <Typography variant="h1" pb="20px">Aim game</Typography>
-            <Typography>The goal of the aimgame is to test your hand eye coordination skills, click the 5 targets showen as fast as posible, your final score is the average time it takes you to clear a screen.</Typography>
+            <Typography variant="h1" pb="20px">Aim Test</Typography>
+            <Typography>The goal of the aimgame is to test your hand-eye coordination skills, click the 5 shown targets as fast as posible, your final score is the average time it takes you to clear a screen.</Typography>
           </Box>
           <Box
             sx={{ boxShadow: 1 }}

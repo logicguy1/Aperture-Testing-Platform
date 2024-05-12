@@ -93,7 +93,7 @@ const NumberGame = () => {
     return <Splash
       benchmarkid={4}
       name="Numbers Game"
-      description="cool numbers game :D"
+      description="cool numbers game woow :D"
       onclick={() => {setIsShowenSplash(false)}} 
     />
     
