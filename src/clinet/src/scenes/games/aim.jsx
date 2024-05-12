@@ -44,7 +44,7 @@ const AimGame = () => {
   const [score, setScore] = useState(0);
   const [startTime, setStartTime] = useState(-1);
   const [isStarted, setIsStarted] = useState(false);
-  const [isShowenSplash, setIsShowenSplash] = useState(true);
+  const [isShownSplash, setIsShownSplash] = useState(true);
 
   const [bell, setBell] = useState({ world: [], user: [], friends: [] });
 
@@ -148,7 +148,7 @@ const AimGame = () => {
     }
   }, [balls])
 
-  if (isShowenSplash) {
+  if (isShownSplash) {
     return <>
       <Box display="flex" alignItems="center" justifyContent="center" flex="1" gap="2em" flexDirection="column">
         <Box display="flex" gap="2em">
@@ -171,7 +171,7 @@ const AimGame = () => {
             alignItems="center"
             justifyContent="center"
             style={{ cursor: "pointer" }}
-            onClick={() => { setIsShowenSplash(false) }}
+            onClick={() => { setIsShownSplash(false) }}
           >
             <Typography variant="h1">Get started</Typography>
           </Box>

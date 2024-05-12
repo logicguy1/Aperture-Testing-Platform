@@ -105,8 +105,8 @@ const TypingGame = () => {
   if (isShownSplash) {
     return <Splash
       benchmarkid={1}
-      name="Typing Game"
-      description="cool typing game :D"
+      name="Typing Test"
+      description="This is a typing test where you are presented a text and you have to type it as quickly and accurately as possible. You are tested on how many wpm (words per minute) you can type."
       onclick={() => 
         {setIsShownSplash(false)}} 
     />

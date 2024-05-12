@@ -20,7 +20,7 @@ const ReactionGame = () => {
   const [turn, setTurn] = useState(0);
   const [startTime, setStartTime] = useState(-1);
   const [isStarted, setIsStarted] = useState(false);
-  const [isShowenSplash, setIsShowenSplash] = useState(true);
+  const [isShownSplash, setIsShownSplash] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
 
   const [bell, setBell] = useState({ world: [], user: [], friends: [] });
@@ -91,7 +91,7 @@ const ReactionGame = () => {
     }, 3000)
   }
 
-  if (isShowenSplash) {
+  if (isShownSplash) {
     return <>
       <Box display="flex" alignItems="center" justifyContent="center" flex="1" gap="2em" flexDirection="column">
         <Box display="flex" gap="2em">
@@ -102,8 +102,8 @@ const ReactionGame = () => {
             height="255px"
             backgroundColor={colors.primary[400]}
           >
-            <Typography variant="h1" pb="20px">Reaction game</Typography>
-            <Typography>The reaction game is about testing your reactions speed, when the screen becomes green, click it, and your score is noted</Typography>
+            <Typography variant="h1" pb="20px">Reaction Test</Typography>
+            <Typography>The reaction test is about testing your reactions speed, when the screen becomes green, click it, and your score is noted</Typography>
           </Box> 
           <Box
             sx={{ boxShadow: 1 }}
@@ -114,7 +114,7 @@ const ReactionGame = () => {
             alignItems="center"
             justifyContent="center"
             style={{ cursor: "pointer" }}
-            onClick={() => { setIsShowenSplash(false) }}
+            onClick={() => { setIsShownSplash(false) }}
           >
             <Typography variant="h1">Get started</Typography>
           </Box>

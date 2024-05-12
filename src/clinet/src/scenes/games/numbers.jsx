@@ -31,7 +31,7 @@ const NumberGame = () => {
   const [turn, setTurn] = useState(0);
   const [isFailed, setIsFailed] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
-  const [isShowenSplash, setIsShowenSplash] = useState(true);
+  const [isShownSplash, setIsShownSplash] = useState(true);
   const [isClicked, setIsClicked] = useState(true);
   const [shownNumber, setShownNumber] = useState(-1);
 
@@ -89,12 +89,12 @@ const NumberGame = () => {
     }
   }, [inputRef])
 
-  if (isShowenSplash) {
+  if (isShownSplash) {
     return <Splash
       benchmarkid={4}
-      name="Numbers Game"
-      description="cool numbers game woow :D"
-      onclick={() => {setIsShowenSplash(false)}} 
+      name="Numbers Test"
+      description="The goal of this test is to memorize as long a sequence of numbers of possible. You are first given one number which will increase for each round."
+      onclick={() => {setIsShownSplash(false)}} 
     />
     
   }
