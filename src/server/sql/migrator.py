@@ -27,6 +27,10 @@ class Migrator(DatabaseManager):
 
                 self._commit_data(db, cursor, "UPDATE users SET password=%s, password_salt=%s WHERE id=%s", [hash.hexdigest(), salt, u["id"]])
 
+        # Add typing game
+        if not len(self._execute_query(db, cursor, """SELECT id FROM benchmarks WHERE id=1;""")):
+            self._commit_data(db, cursor, """INSERT INTO benchmarks (id, benchmark_name, unit, data_range, data_cutoff, normalisation_vector) VALUES (1, 'Typing game', 'wpm', 100, 1000, 'lower_better')""")
+
         # Close the database connection
         self._close(db)
 
