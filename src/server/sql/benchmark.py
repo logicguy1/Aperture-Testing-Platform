@@ -61,38 +61,62 @@ class Benchmark(DatabaseManager):
         data = self._execute_query(
             db, cursor,
             """
-SELECT 
-    user_id,
-    (SELECT username FROM users WHERE id=user_id) AS username,
-    AVG(normalized_value) AS normalised_value
-FROM (
-    SELECT 
-        b.id, 
-        u.user_id, 
-        COALESCE(s.value, 0) AS value,
-        CASE 
-            WHEN b.normalisation_vector = 'lower_better' THEN 
-                CASE 
-                    WHEN AVG(s.value) OVER(PARTITION BY b.id) = 0 THEN NULL
-                    ELSE 1 / (COALESCE(s.value, 0) / AVG(s.value) OVER(PARTITION BY b.id))
-                END
-            ELSE 
-                CASE 
-                    WHEN AVG(s.value) OVER(PARTITION BY b.id) = 0 THEN NULL
-                    ELSE COALESCE(s.value, 0) / AVG(s.value) OVER(PARTITION BY b.id)
-                END
-        END AS normalized_value
-    FROM 
-        (SELECT DISTINCT id, normalisation_vector FROM benchmarks) b
-    CROSS JOIN
-        (SELECT DISTINCT user_id FROM scores) u
-    LEFT JOIN 
-        scores s ON s.benchmark_id = b.id AND s.user_id = u.user_id
+SELECT
+	user_id,
+	(
+	SELECT
+		username
+	FROM
+		users
+	WHERE
+		id = user_id) AS username,
+	AVG(normalized_value)*(
+	SELECT
+		COUNT(DISTINCT benchmark_id) AS unique_benchmark_ids
+	FROM
+		scores
+	WHERE
+		user_id = user_id) AS normalised_value
+FROM
+	(
+	SELECT
+		b.id,
+		u.user_id,
+		COALESCE(s.value, 0) AS value,
+		CASE
+			WHEN b.normalisation_vector = 'lower_better' THEN 
+                CASE
+				WHEN AVG(s.value) OVER(PARTITION BY b.id) = 0 THEN NULL
+				ELSE 1 / (COALESCE(s.value, 0) / AVG(s.value) OVER(PARTITION BY b.id))
+			END
+			ELSE 
+                CASE
+				WHEN AVG(s.value) OVER(PARTITION BY b.id) = 0 THEN NULL
+				ELSE COALESCE(s.value, 0) / AVG(s.value) OVER(PARTITION BY b.id)
+			END
+		END AS normalized_value
+	FROM
+		(
+		SELECT
+			DISTINCT id,
+			normalisation_vector
+		FROM
+			benchmarks) b
+	CROSS JOIN
+        (
+		SELECT
+			DISTINCT user_id
+		FROM
+			scores) u
+	LEFT JOIN 
+        scores s ON
+		s.benchmark_id = b.id
+		AND s.user_id = u.user_id
 ) AS subquery
-GROUP BY 
-    user_id
-ORDER BY 
-    normalised_value DESC;""")
+GROUP BY
+	user_id
+ORDER BY
+	normalised_value DESC;""")
         self._close(db)
 
         return data
