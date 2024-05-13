@@ -30,9 +30,11 @@ class Migrator(DatabaseManager):
         # Add typing game
         if not len(self._execute_query(db, cursor, """SELECT id FROM benchmarks WHERE id=1;""")):
             self._commit_data(db, cursor, """INSERT INTO benchmarks (id, benchmark_name, unit, data_range, data_cutoff, normalisation_vector) VALUES (1, 'Typing game', 'wpm', 100, 1000, 'lower_better')""")
-        self._commit_data(db, cursor, """UPDATE benchmarks SET data_range=25, data_cutoff=250 WHERE id=1;""")
+        self._commit_data(db, cursor, """UPDATE benchmarks SET data_range=10, data_cutoff=220, normalisation_vector='higher_better' WHERE id=1;""")
         
-
+        # Add Maze solver
+        if not len(self._execute_query(db, cursor, """SELECT id FROM benchmarks WHERE id=7;""")):
+            self._commit_data(db, cursor, """INSERT INTO benchmarks (id, benchmark_name, unit, data_range, data_cutoff, normalisation_vector) VALUES (7, 'Maze game', 'ms', 500, 10000, 'lower_better')""")
         
         # Close the database connection
         self._close(db)
