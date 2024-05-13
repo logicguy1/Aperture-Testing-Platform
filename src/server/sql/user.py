@@ -89,7 +89,7 @@ class User(DatabaseManager):
             self._close(db)
             return True
 
-        except IndexError:
+        except:
             self._close(db)
             return False
 

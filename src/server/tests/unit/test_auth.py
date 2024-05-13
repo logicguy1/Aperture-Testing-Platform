@@ -53,7 +53,11 @@ def test_user_signup_errors():
     """
     Test errors on user signup using the User class
     """
-    pass
+    user = User(-1)
+    user1 = user.register(USERNAME, EMAIL, PASSWORD)
+    user2 = user.register(USERNAME, EMAIL, PASSWORD)
+    DBMGR.delete_user(USERNAME)
+    assert user1 == True and user2 == False
 
 def test_user_login():
     """
