@@ -92,7 +92,7 @@ FROM (
 GROUP BY 
     user_id
 ORDER BY 
-    user_id;""")
+    normalised_value;""")
         self._close(db)
 
         return data
