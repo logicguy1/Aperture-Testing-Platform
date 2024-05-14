@@ -22,15 +22,15 @@ class TestAuthDbManager(DatabaseManager):
 
 
 def random_word(length) -> str:
-    return ''.join(random.choice(string.ascii_lowercase) for i in range(length))
+    return 'test_'.join(random.choice(string.ascii_lowercase) for i in range(length))
 
 
 
 DBMGR = TestAuthDbManager()
 
-USERNAME = random_word(10)
-EMAIL = f"{random_word(10)}@{random_word(10)}.com"
-PASSWORD = random_word(10)
+USERNAME = random_word(5)
+EMAIL = f"{random_word(5)}@{random_word(5)}.com"
+PASSWORD = random_word(5)
 
 
 
@@ -41,12 +41,10 @@ def test_user_signup():
     """
     user = User(-1)
     user.register(USERNAME, EMAIL, PASSWORD)
-    
     username_from_db = DBMGR.get_username_from_email(EMAIL)
     DBMGR.delete_user(USERNAME)
 
     assert USERNAME == username_from_db
-
 
 def test_user_signup_errors():
     """
@@ -56,6 +54,7 @@ def test_user_signup_errors():
     user1 = user.register(USERNAME, EMAIL, PASSWORD)
     user2 = user.register(USERNAME, EMAIL, PASSWORD)
     DBMGR.delete_user(USERNAME)
+
     assert user1 == True
     assert user2 == False
 
@@ -67,6 +66,7 @@ def test_user_login():
     user.register(USERNAME, EMAIL, PASSWORD)
     user1 = user.login(USERNAME, PASSWORD)
     DBMGR.delete_user(USERNAME)
+
     assert user1.username == USERNAME
 
 def test_user_login_errors():
@@ -78,5 +78,6 @@ def test_user_login_errors():
     user.register(USERNAME, EMAIL, PASSWORD)
     user2 = user.login(USERNAME, f"{PASSWORD}1")
     DBMGR.delete_user(USERNAME)
+
     assert user1.id == -1 
     assert user2.id == -1
