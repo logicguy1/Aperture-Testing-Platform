@@ -151,7 +151,7 @@ const NumberGame = () => {
       <Box display="flex" alignItems="center" justifyContent="center" flex="1" flexDirection="column">
         {isClicked === true ? 
           <>
-            <Typography variant="h1">{shownNumber}</Typography> 
+            <Typography variant="h1" style={{ userSelect: "none" }}>{shownNumber}</Typography> 
             <Box width="200px">
               <LinearProgress variant="determinate" value={count/3*100} />
             </Box>
