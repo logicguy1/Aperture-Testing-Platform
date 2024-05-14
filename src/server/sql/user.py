@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple, Any, Type
+from typing import Dict, List, Tuple, Any, Type, Optional
 import datetime
 import hashlib
 import secrets
@@ -45,7 +45,7 @@ class User(DatabaseManager):
     def __eq__(self, other):
         return self.id == other.id
 
-    def login(self, username: str, password: str) -> bool:
+    def login(self, username: str, password: str) -> 'User':
         db, cursor = self._connect()
 
         try:

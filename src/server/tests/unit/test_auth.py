@@ -13,7 +13,7 @@ class TestDbManager(DatabaseManager):
                                        [email])[0]["username"]
         self._close(db)
         return username
-    
+
     def delete_user(self, username: str):
         db, cursor = self._connect()
         self._commit_data(db, cursor, "DELETE FROM users WHERE username = %s;", [username])
@@ -63,7 +63,11 @@ def test_user_login():
     """
     Test user login using the User class
     """
-    pass
+    user = User(-1)
+    user.register(USERNAME, EMAIL, PASSWORD)
+    user1 = user.login(USERNAME, PASSWORD)
+    DBMGR.delete_user(USERNAME)
+    assert user1.username == USERNAME
 
 def test_user_login_errors():
     """
