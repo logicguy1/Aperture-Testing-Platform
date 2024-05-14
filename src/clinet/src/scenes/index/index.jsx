@@ -93,7 +93,7 @@ const columns2 = [
     flex: 0.5,
   },
   {
-    field: 'Typing speed',
+    field: 'Typing game',
     headerName: 'Typing speed',
     editable: false,
     flex: 0.5,
