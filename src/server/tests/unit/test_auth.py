@@ -5,7 +5,7 @@ import random
 import string
 
 
-class TestDbManager(DatabaseManager):
+class TestAuthDbManager(DatabaseManager):
     def get_username_from_email(self, email: str) -> str:
         db, cursor = self._connect()
         username = self._execute_query(db, cursor, 
@@ -26,7 +26,7 @@ def random_word(length) -> str:
 
 
 
-DBMGR = TestDbManager()
+DBMGR = TestAuthDbManager()
 
 USERNAME = random_word(10)
 EMAIL = f"{random_word(10)}@{random_word(10)}.com"
@@ -48,7 +48,6 @@ def test_user_signup():
     assert USERNAME == username_from_db
 
 
-
 def test_user_signup_errors():
     """
     Test errors on user signup using the User class
@@ -57,7 +56,8 @@ def test_user_signup_errors():
     user1 = user.register(USERNAME, EMAIL, PASSWORD)
     user2 = user.register(USERNAME, EMAIL, PASSWORD)
     DBMGR.delete_user(USERNAME)
-    assert user1 == True and user2 == False
+    assert user1 == True
+    assert user2 == False
 
 def test_user_login():
     """
@@ -78,4 +78,5 @@ def test_user_login_errors():
     user.register(USERNAME, EMAIL, PASSWORD)
     user2 = user.login(USERNAME, f"{PASSWORD}1")
     DBMGR.delete_user(USERNAME)
-    assert user1.id == -1 and user2.id
+    assert user1.id == -1 
+    assert user2.id == -1
