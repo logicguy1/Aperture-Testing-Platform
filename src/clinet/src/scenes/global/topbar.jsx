@@ -54,20 +54,13 @@ const Topbar = () => {
         {/* TITLE TEXT */}
         <Box display="flex">
           <Box
-            sx={{...headerStyle, paddingLeft: "30px", backgroundColor: "#080942", width: "200px"}}
+            sx={{...headerStyle, paddingLeft: "30px", backgroundColor: "#080942", width: "200px", cursor: "pointer"}}
+            onClick={() => {navigate("/home")}}>
           >
             <img src={logo} alt="Logo" style={{ maxHeight: 40, width: "auto", transform: "skew(20deg)"}} />
           </Box>
           <Box
-            sx={{...headerStyle, left: "139px", backgroundColor: "#221c69"}}
-          >
-            <Typography sx={{transform: "skew(20deg)", cursor: "pointer"}}
-            onClick={() => {navigate("/home")}}>
-              Home
-            </Typography>
-          </Box>
-          <Box
-            sx={{...headerStyle, left: "278px", backgroundColor: "#431c76", cursor: "pointer"}}
+            sx={{...headerStyle, left: "160px", backgroundColor: "#431c76", cursor: "pointer"}}
             onClick={() => {navigate("/")}}
           >
             <Typography sx={{transform: "skew(20deg)"}}>
