@@ -199,17 +199,20 @@ const TypingGame = () => {
       >
         <Box
           p="0 75px 75px 0"
-          sx={{ boxShadow: 1 }}
-          width="1135px"
-          height="755px"
-          textAlign="center"
-          flexDirection="column"
-          alignitems="center"
-          justifyContent="center"
+          sx={{ 
+          boxShadow: 1,
+          userSelect: "none",
+          width:"1135px",
+          height:"755px",
+          textAlign:"center",
+          flexDirection:"column",
+          alignitems:"center",
+          justifyContent:"center"
+          }}
         >
-          <Typography>WPM: {score}</Typography>
+          <Typography variant="h2">WPM: {score}</Typography>
           <LinearProgress variant="determinate" value={progress} />
-          <p className="text">{randomText}</p>
+          <Typography sx={{margin: "12px"}} variant="h5">{randomText}</Typography>
           <TextField
             ref={inputRef}
             type="text"

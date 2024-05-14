@@ -77,8 +77,7 @@ const Index = () => {
   }, [])
 
   const card = (
-    <React.Fragment>
-      <Box p={3}>
+    <Box p={3}>
       <CardContent>
         <Typography sx={{ fontSize: 16 }} color="text.primary" gutterBottom>
           Your friend code:
@@ -87,7 +86,7 @@ const Index = () => {
           <Typography variant="h4" component="div">{data?.friend_code}</Typography>
         </Box>
         <Typography sx={{ fontSize: 12, marginTop: "16px" }} color="text.secondary">
-          Submit a friend's friend code below:
+          Submit a friend's code below:
         </Typography>
       </CardContent>
       <CardActions style={{ justifyContent: "center" }}>
@@ -119,8 +118,7 @@ const Index = () => {
           </ListItem>
         ))}
       </List>
-      </Box>
-    </React.Fragment>
+    </Box>
   );
 
   return (

@@ -61,7 +61,8 @@ const Topbar = () => {
           <Box
             sx={{...headerStyle, left: "139px", backgroundColor: "#221c69"}}
           >
-            <Typography sx={{transform: "skew(20deg)"}}>
+            <Typography sx={{transform: "skew(20deg)", cursor: "pointer"}}
+            onClick={() => {navigate("/home")}}>
               Home
             </Typography>
           </Box>
