@@ -25,7 +25,7 @@ const Topbar = () => {
   console.log(headSettings)
   const headerStyle = {
     transform: "skew(-20deg)",
-    width: "150px",
+    width: "160px",
     height: "50px",
     position: "absolute",
     left: "-10px",
@@ -54,7 +54,7 @@ const Topbar = () => {
         {/* TITLE TEXT */}
         <Box display="flex">
           <Box
-            sx={{...headerStyle, paddingLeft: "30px", backgroundColor: "#080942", transform: "skew(-20deg)"}}
+            sx={{...headerStyle, paddingLeft: "30px", backgroundColor: "#080942", width: "200px"}}
           >
             <img src={logo} alt="Logo" style={{ maxHeight: 40, width: "auto", transform: "skew(20deg)"}} />
           </Box>

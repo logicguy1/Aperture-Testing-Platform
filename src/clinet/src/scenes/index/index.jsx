@@ -5,7 +5,7 @@ import { DataGrid, GridFooter } from '@mui/x-data-grid';
 
 import { AuthContext } from '../../context/AuthContext';
 import { HeadContext } from "../../context/HeadContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 
 import { capitalizeFirstLetter } from "../../utils/strings";
 
@@ -70,21 +70,21 @@ const columns = [
 const columns2 = [
   {
     field: 'rank',
-    headerName: 'Rank',
+    headerName: '#',
     editable: false,
-    flex: 0.2,
+    flex: 0.1,
   },
   {
     field: 'username',
     headerName: 'Navn',
     editable: false,
-    flex: 1,
+    flex: 0.7,
   },
   {
     field: 'normalised_value',
     headerName: 'Normalisation',
     editable: false,
-    flex: 0.5,
+    flex: 0.4,
   },
   {
     field: 'Reaction speed',
@@ -93,8 +93,8 @@ const columns2 = [
     flex: 0.5,
   },
   {
-    field: 'Maze solver',
-    headerName: 'Maze solver',
+    field: 'Typing speed',
+    headerName: 'Typing speed',
     editable: false,
     flex: 0.5,
   },
@@ -116,6 +116,12 @@ const columns2 = [
     editable: false,
     flex: 0.5,
   },
+  {
+    field: 'Maze solver',
+    headerName: 'Maze solver',
+    editable: false,
+    flex: 0.5,
+  },
 ];
 
 
@@ -126,14 +132,19 @@ const Index = () => {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
   const head = useContext(HeadContext);
+  const { userId } = useParams();
+  console.log(userId)
 
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    head.setData({location: ["Dashboard"]});
+    let user = -1;
+    if (userId !== undefined) {
+      user = userId;
+    }
 
     fetch(
-      `${config.baseurl}/dashboard/get_data`,
+      `${config.baseurl}/dashboard/get_data/${user}`,
       {
         credentials: 'include',
       }
@@ -150,7 +161,7 @@ const Index = () => {
         setData(data.data)
       }
     })
-  }, [])
+  }, [userId])
 
   return (
     <>
@@ -159,9 +170,7 @@ const Index = () => {
         position="relative"
         borderBottom={`1px ${colors.borderColor} solid`}
         sx={{
-          //background: "linear-gradient(142deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 38%, rgba(0,212,255,1) 100%)"
           background: "linear-gradient(142deg, rgba(191,10,185,1) 0%, rgba(113,67,200,1) 40%, rgba(14,157,204,1) 100%)"
-          //background: "linear-gradient(142deg, rgba(166,0,160,1) 0%, rgba(86,16,210,1) 69%, rgba(0,185,246,1) 100%)"
         }}
       >
         <Box 
@@ -179,7 +188,7 @@ const Index = () => {
           />
           <Box mt="2.5em" display="flex" flexDirection="column" gap=".3em">
             <Typography variant="h3">
-              {capitalizeFirstLetter(auth.token.user)}
+              {capitalizeFirstLetter(data?.name === undefined ? "" : data.name)}
             </Typography>
             <Typography variant="h5">
               Joined {data?.created}
@@ -246,6 +255,10 @@ const Index = () => {
                 return params.value == 0 || params.value === null ? 'empty' : '';
               }
             }}
+            onRowClick={(row) => {
+              console.log(row);
+              navigate(["/games/typing","/games/reaction","/games/aim","/games/number","/games/simon",null,"/games/maze"][row.id-1])
+            }}
           />
         </Box>
         <Box flex="1">
@@ -277,6 +290,9 @@ const Index = () => {
             }}
             getCellClassName={(params) => {
               return params.value == -1 || params.value === null ? 'empty' : '';
+            }}
+            onRowClick={(row) => {
+              navigate(`/user/${row.id}`)
             }}
           />
         </Box>

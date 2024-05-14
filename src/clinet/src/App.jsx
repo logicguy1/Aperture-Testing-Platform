@@ -61,6 +61,7 @@ const App = () => {
                       <Routes>
                         <Route path="/" element={<Index />} />
                         <Route path="/home" element={<Home />} />
+                        <Route path="/user/:userId" element={<Index />} />
                         <Route path="/settings" element={<Settings/>} />
                         <Route path="/games/aim" element={<AimGame />} />
                         <Route path="/games/reaction" element={<ReactionGame />} />

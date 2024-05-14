@@ -6,9 +6,13 @@ from sql.user import User
 from sql.benchmark import Benchmark
 
 
-@bp.route('/get_data')
-def get_data():
-    user_id = JWTHandler().decode(request.cookies.get('authorization'))["id"]
+@bp.route('/get_data/<user_id>')
+def get_data(user_id):
+    user_id = int(user_id)
+
+    if user_id == -1:
+        user_id = JWTHandler().decode(request.cookies.get('authorization'))["id"]
+    print("id2", user_id)
 
     user = User(user_id)
     scores = user.get_scores()
@@ -32,10 +36,9 @@ def get_data():
             score
         )
 
-    print(score)
-
-
     return jsonify({"status": True, "message": "Fetched data", "data": {
+        "name": user.username,
+        "user_id": user.id,
         "created": user.create_time,
         "scores": scores,
         "high_scores": high_scores,

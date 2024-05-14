@@ -4,6 +4,7 @@ import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme.js";
+import { matchRoutes, useLocation } from "react-router-dom"
 
 import "react-pro-sidebar/dist/css/styles.css";
 
@@ -21,9 +22,12 @@ import PersonOutlineOutlined from "@mui/icons-material/PersonOutlineOutlined";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const location = useLocation();
+
   return (
     <MenuItem
-      active={selected === title}
+      active={selected === title && location.pathname.includes("/games/")}
       style={{
         color: colors.grey[100],
       }}
@@ -55,7 +59,7 @@ const Sidebar = ({ setExpanded }) => {
       sx={{
         position: "sticky",
         borderRight: `1px ${colors.borderColor} solid`,
-        top: 0,
+        top: "51px",
         height: "calc(100vh - 51px)",
         "& .pro-menu": {
           padding: 0
