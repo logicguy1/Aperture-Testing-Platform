@@ -73,4 +73,9 @@ def test_user_login_errors():
     """
     Test errors on user login using the User class
     """
-    pass
+    user = User(-1)
+    user1 = user.login(USERNAME, PASSWORD)
+    user.register(USERNAME, EMAIL, PASSWORD)
+    user2 = user.login(USERNAME, f"{PASSWORD}1")
+    DBMGR.delete_user(USERNAME)
+    assert user1.id == -1 and user2.id
