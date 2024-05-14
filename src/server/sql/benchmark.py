@@ -70,18 +70,19 @@ SELECT
 		users
 	WHERE
 		id = user_id) AS username,
-	AVG(normalized_value)*(
-	SELECT
-		COUNT(DISTINCT benchmark_id) AS unique_benchmark_ids
-	FROM
-		scores
-	WHERE
-		user_id = user_id) AS normalised_value
+	AVG(normalized_value)AS normalised_value,
+	input_count
 FROM
 	(
 	SELECT
 		b.id,
-		u.user_id,
+		u.user_id, 
+		(SELECT
+				COUNT(DISTINCT ss.benchmark_id) AS unique_benchmark_ids
+			FROM
+				scores ss
+			WHERE
+				ss.user_id = u.user_id) AS input_count,
 		COALESCE(s.value, 0) AS value,
 		CASE
 			WHEN b.normalisation_vector = 'lower_better' THEN 
@@ -116,7 +117,7 @@ FROM
 GROUP BY
 	user_id
 ORDER BY
-	normalised_value DESC;""")
+	input_count DESC, normalised_value DESC;""")
         self._close(db)
 
         return data
