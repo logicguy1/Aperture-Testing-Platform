@@ -215,7 +215,7 @@ const TypingGame = () => {
             type="text"
             onChange={handleTyping}
             value={typedText}
-            style={{ backgroundColor: isWrong ? colors.redAccent[800] : colors.primary[500] }}
+            style={{ backgroundColor: isWrong ? colors.redAccent[800] : colors.primary[500], width: "100%", padding: "2em" }}
           />
           <Box
             width="1000px"
