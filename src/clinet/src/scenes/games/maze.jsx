@@ -185,7 +185,7 @@ const MazeGame = () => {
             onClick={() => {setScore(1); setIsStarted(true); setIsFailed(false); setDoDetection(false); setMaze(generateMaze(7,11)); setStartTime(+new Date());}}
           >
       
-            <Typography variant="h1">{score !== 1 ? `${score} ms` : 'You crossed a border, try agein'}</Typography>
+            <Typography variant="h1">{score !== 1 ? `${score} ms` : 'You crossed a border, try again'}</Typography>
           </Box>
         </Box>
       </>
