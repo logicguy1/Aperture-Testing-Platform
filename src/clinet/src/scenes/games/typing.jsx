@@ -26,6 +26,7 @@ const TypingGame = () => {
   const [typedText, setTypedText] = useState("");
   const [progress, setProgress] = useState(0);
   const [randomText, setRandomText] = useState("");
+  const [isWrong, setIsWrong] = useState(false);
 
   const texts = [
     `You never read a book on psychology, Tippy. You didn't need to. You knew by some divine instinct that you can make more friends in two months by becoming genuinely interested in other people than you can in two years by trying to get other people interested in you.`,
@@ -79,6 +80,14 @@ const TypingGame = () => {
     setTypedText(typed);
     if (!startTime) {
       setStartTime(Date.now());
+    }
+
+    if (!randomText.startsWith(typed)) {
+      setIsWrong(true);
+      console.log("Yessir", isWrong)
+    } else {
+      setIsWrong(false);
+      console.log("Nahh", isWrong)
     }
     
     // calculates the WPM based on typed text length and time elapsed
@@ -201,11 +210,12 @@ const TypingGame = () => {
           <Typography>WPM: {score}</Typography>
           <LinearProgress variant="determinate" value={progress} />
           <p className="text">{randomText}</p>
-          <input
+          <TextField
             ref={inputRef}
             type="text"
             onChange={handleTyping}
             value={typedText}
+            style={{ backgroundColor: isWrong ? colors.redAccent[800] : colors.primary[500] }}
           />
           <Box
             width="1000px"

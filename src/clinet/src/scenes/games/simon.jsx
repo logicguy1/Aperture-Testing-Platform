@@ -44,8 +44,8 @@ function Grid({ width, height, marked, setMarked }) {
       squares.push(
         <Box 
           key={key} 
-          width="35px" 
-          height="35px" 
+          width="55px" 
+          height="55px" 
           backgroundColor={marked.includes((row*width)+col) ? "#f00" : "#f1f1f1"} 
           border="2px #fff solid "
           onClick={() => setMarked(m => [...m, (row*width)+col])}
