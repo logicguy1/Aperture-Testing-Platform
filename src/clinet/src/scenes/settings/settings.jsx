@@ -1,8 +1,10 @@
 
-import { Box, Button, IconButton, Typography, useTheme, Table, TextField, Card, Avatar, ButtonBase, Input } from "@mui/material";
+import { Box, Button, IconButton, Typography, useTheme, Table, TextField, Card, Avatar, ButtonBase, Input, List, ListItem, ListItemText, CardActions, CardContent, Divider, ListItemAvatar } from "@mui/material";
 import { tokens, themeSettings } from "../../theme";
 import { useState, useEffect, useContext } from "react";
 import { DataGrid, GridFooter } from '@mui/x-data-grid';
+import * as React from "react";
+import PersonIcon from '@mui/icons-material/Person';
 
 import { AuthContext } from '../../context/AuthContext';
 import { HeadContext } from "../../context/HeadContext";
@@ -22,7 +24,6 @@ const Index = () => {
   const [data, setData] = useState(null);
 
   const [friend_map, setFriendMap] = useState(null)
-
   const [friend_code, setFriendCode] = useState(null);
 
   const executeFriendCode = () => {
@@ -38,7 +39,6 @@ const Index = () => {
         })
       })
   }
-
 
   useEffect(() => {
     head.setData({ location: ["Dashboard"] });
@@ -72,29 +72,69 @@ const Index = () => {
         }
         return response.json()
       }).then(data => {
-        setFriendMap(data.data.friends.map(friend =>
-          <li>{friend}</li>))
+        setFriendMap(data.data.friends);
       })
   }, [])
 
+  const card = (
+    <React.Fragment>
+      <Box p={3}>
+      <CardContent>
+        <Typography sx={{ fontSize: 16 }} color="text.primary" gutterBottom>
+          Your friend code:
+        </Typography>
+        <Box sx={{ border: 1, borderColor: "grey.500", borderRadius: 12, p: 2 }}>
+          <Typography variant="h4" component="div">{data?.friend_code}</Typography>
+        </Box>
+        <Typography sx={{ fontSize: 12, marginTop: "16px" }} color="text.secondary">
+          Submit a friend's friend code below:
+        </Typography>
+      </CardContent>
+      <CardActions style={{ justifyContent: "center" }}>
+        <form onSubmit={(e) => { e.preventDefault(); executeFriendCode() }} >
+          <TextField
+            label="Friend code"
+            variant="standard"
+            onChange={event => setFriendCode(event.target.value)}
+            sx={{ width: "60%" }}
+          /> 
+          <Button
+            style={{ marginLeft: "20px", marginTop: "5px", backgroundColor: "#431C76" }}
+            variant="contained"
+            type="submit"
+          > Submit </Button>
+      </form>
+      </CardActions>
+      <Divider style={{ margin: "16px 0" }} />
+      <Typography variant="h6">Friend List</Typography> 
+      <List>
+        {friend_map && friend_map.map((friend, index) => (
+          <ListItem key={index}>
+            <ListItemAvatar>
+              <Avatar>
+                <PersonIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={friend} />
+          </ListItem>
+        ))}
+      </List>
+      </Box>
+    </React.Fragment>
+  );
+
   return (
     <>
-      {auth.token.user} - {data?.friend_code}
-      <form onSubmit={(e) => { e.preventDefault(); executeFriendCode() }} >
-        <TextField
-          label="FriendCode"
-          variant="standard"
-          onChange={event => setFriendCode(event.target.value)}
-        />
-        <Button
-          style={{ marginLeft: "20px", marginTop: "5px" }}
-          variant="contained"
-          type="submit"
-        > Submit </Button>
-      </form>
-      <ul>
-        {friend_map}
-      </ul>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+    >
+      <Card variant="outlined">{card}</Card>
+      
+      </Box>
     </>
   )
 }
