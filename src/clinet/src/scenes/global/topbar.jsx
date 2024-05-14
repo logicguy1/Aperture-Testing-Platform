@@ -54,12 +54,12 @@ const Topbar = () => {
         {/* TITLE TEXT */}
         <Box display="flex">
           <Box
-            sx={{...headerStyle, paddingLeft: "30px", backgroundColor: colors.blueAccent[400]}}
+            sx={{...headerStyle, paddingLeft: "30px", backgroundColor: "#080942", transform: "skew(20deg)"}}
           >
             <img src={logo} alt="Logo" style={{ maxHeight: 40, width: "auto"}} />
           </Box>
           <Box
-            sx={{...headerStyle, left: "139px", backgroundColor: colors.greenAccent[400]}}
+            sx={{...headerStyle, left: "139px", backgroundColor: "#221c69"}}
           >
             <Typography sx={{transform: "skew(20deg)"}}>
               Home
