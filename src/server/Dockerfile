@@ -5,11 +5,11 @@ FROM python:3.12
 WORKDIR /app
 
 # Copy requirements.txt and install dependencies
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
+COPY src/server/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of your application code
-COPY . .
+COPY src/server/ ./
 
 # Command to run your application
 CMD ["python", "__init__.py"]
