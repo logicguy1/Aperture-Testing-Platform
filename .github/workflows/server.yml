@@ -36,15 +36,15 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/server:${{ steps.increment-version.outputs.VERSION }} -f src/server/Dockerfile .
+          docker build -t $${{ secrets.DOCKER_HUB_USERNAME }}/server:${{ steps.increment-version.outputs.VERSION }} -f src/server/Dockerfile .
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/server:${{ steps.increment-version.outputs.VERSION }}
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/server:${{ steps.increment-version.outputs.VERSION }}
 
       - name: Update docker-compose version
         run: |
-          sed -i "s|image: ${{ secrets.DOCKER_USERNAME }}/server:.*|image: ${{ secrets.DOCKER_USERNAME }}/server:${{ steps.increment-version.outputs.VERSION }}|g" docker-compose.yml
+          sed -i "s|image: ${{ secrets.DOCKER_HUB_USERNAME }}/server:.*|image: ${{ secrets.DOCKER_HUB_USERNAME }}/server:${{ steps.increment-version.outputs.VERSION }}|g" docker-compose.yml
 
       - name: Commit docker-compose version update
         run: |
