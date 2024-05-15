@@ -36,7 +36,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t $${{ secrets.DOCKER_HUB_USERNAME }}/server:${{ steps.increment-version.outputs.VERSION }} -f src/server/Dockerfile .
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/server:${{ steps.increment-version.outputs.VERSION }} -f src/server/Dockerfile .
 
       - name: Push Docker image
         run: |

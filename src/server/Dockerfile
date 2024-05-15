@@ -11,5 +11,5 @@ RUN pip install -r requirements.txt
 # Copy the rest of your application code
 COPY . .
 
-# Command to run your application.
+# Command to run your application
 CMD ["python", "__init__.py"]
