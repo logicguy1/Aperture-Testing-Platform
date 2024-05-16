@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  client:
+    image: robounord/client:0.01
+    container_name: client
+    depends_on:
+      - server
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.cbv-exam01-client.rule=Host(`cbv-exam01.unord.dk`)"
+        - "traefik.http.routers.cbv-exam01-client.entrypoints=websecure"
+        - "traefik.http.routers.cbv-exam01-client.tls=true"
+        - "traefik.http.services.cbv-exam01-client.loadbalancer.server.port=3000"
+        - "traefik.http.services.cbv-exam01-client.loadbalancer.server.scheme=http"
+        - "traefik.http.services.cbv-exam01-client.loadbalancer.passHostHeader=true"
+    networks:
+      - public
+
+  server:
+    image: robounord/server:0.01
+    container_name: server
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.cbv-exam01-server.rule=Host(`cbv-exam01.unord.dk`) && PathPrefix(`/api`)"
+        - "traefik.http.routers.cbv-exam01-server.entrypoints=websecure"
+        - "traefik.http.routers.cbv-exam01-server.tls=true"
+        - "traefik.http.middlewares.cbv-exam01-server-strip.stripprefix.prefixes=/api"
+        - "traefik.http.routers.cbv-exam01-server.middlewares=cbv-exam01-server-strip@docker"
+        - "traefik.http.services.cbv-exam01-server.loadbalancer.server.port=5000"
+        - "traefik.http.services.cbv-exam01-server.loadbalancer.server.scheme=http"
+        - "traefik.http.services.cbv-exam01-server.loadbalancer.passHostHeader=true"
+    networks:
+      - public
+
+networks:
+  public:
+    external: true
