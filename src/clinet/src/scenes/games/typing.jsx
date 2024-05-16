@@ -29,12 +29,11 @@ const TypingGame = () => {
   const [isWrong, setIsWrong] = useState(false);
 
   const texts = [
-    `You never read a book on psychology, Tippy. You didn't need to. You knew by some divine instinct that you can make more friends in two months by becoming genuinely interested in other people than you can in two years by trying to get other people interested in you.`,
-    `I know more about the private lives of celebrities than I do about any governmental policy that will actually affect me. I'm interested in things that are none of my business, and I'm bored by things that are important to know.`,
-    `A spider's body consists of two main parts: an anterior portion, the prosoma (or cephalothorax), and a posterior part, the opisthosoma (or abdomen).`,  
-    `As customers of all races, nationalities, and cultures visit the Dekalb Farmers Market by the thousands, I doubt that many stand in awe and contemplate the meaning of its existence. But in the capital of the Sunbelt South, the quiet revolution of immigration and food continues to upset and redefine the meanings of local, regional, and global identity.`,
-    `Outside of two men on a train platform there's nothing in sight. They're waiting for spring to come, smoking down the track. The world could come to an end tonight, but that's alright. She could still be there sleeping when I get back.`,
-    `I'm a broke-nose fighter. I'm a loose-lipped liar. Searching for the edge of darkness. But all I get is just tired. I went looking for attention. In all the wrong places. I was needing a redemption. And all I got was just cages.`
+    'In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort.',
+    'Just before tea-time there came a tremendous ring on the front-door bell, and then he remembered! He rushed and put on the kettle, and put out another cup and saucer, and an extra cake or two, and ran to the door.',
+    'Finally, after many trials and tribulations, Frodo reached Mount Doom. With the Ring weighing heavy on his conscience, he climbed the fiery slopes and cast the Ring into the flames, destroying it forever.',
+    "In the Hundred Acre Wood, nestled deep in the heart of the forest, there lived a bear named Winnie the Pooh. Pooh wasn't very clever, but he had a big heart and a love for honey that knew no bounds.",
+    'Frodo Baggins, a hobbit of the Shire, was chosen to bear the Ring and destroy it in the fires of Mount Doom. With his faithful friend Samwise Gamgee by his side, he embarked on a perilous journey across Middle-earth.'
   ];
 
   useEffect(() => {
@@ -215,6 +214,7 @@ const TypingGame = () => {
           <Typography sx={{margin: "12px"}} variant="h5">{randomText}</Typography>
           <TextField
             ref={inputRef}
+            autoFocus={true}
             type="text"
             onChange={handleTyping}
             value={typedText}

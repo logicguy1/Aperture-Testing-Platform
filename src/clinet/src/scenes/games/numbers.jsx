@@ -160,6 +160,7 @@ const NumberGame = () => {
             ref={inputRef}
             label="Type number here"
             variant="outlined"
+            autoFocus={true}
             onLoad={(e) => {console.log(e)}}
             onChange={(e) => {
               if (e.target.value.length === score) {
