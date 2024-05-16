@@ -11,5 +11,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of your application code
 COPY src/server/ ./
 
-# Command to run your application.
+# Command to run your application
 CMD ["python", "__init__.py"]

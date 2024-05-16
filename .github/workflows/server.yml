@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use the default GitHub token
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -30,7 +32,7 @@ jobs:
       - name: Increment version number
         id: increment-version
         run: |
-          VERSION=$(echo $VERSION | awk '{print $1 + 0.01}')
+          VERSION=$(echo $VERSION | awk '{printf "%.2f", $1 + 0.01}')
           echo "VERSION=$VERSION" > .version-server
           echo "::set-output name=VERSION::$VERSION"
 
@@ -46,10 +48,14 @@ jobs:
         run: |
           sed -i "s|image: ${{ secrets.DOCKER_HUB_USERNAME }}/server:.*|image: ${{ secrets.DOCKER_HUB_USERNAME }}/server:${{ steps.increment-version.outputs.VERSION }}|g" docker-compose.yml
 
-      - name: Commit docker-compose version update
+      - name: Setup Git Config
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+
+      - name: Commit docker-compose version update
+        run: |
           git add docker-compose.yml .version-server
-          git commit -m "Update server image version to ${{ steps.increment-version.outputs.VERSION }}"
-          git push
+          git commit -m "Update server image version to ${{ steps.increment-version.outputs.VERSION }}" || echo "No changes to commit"
+          git push origin HEAD:main
+
