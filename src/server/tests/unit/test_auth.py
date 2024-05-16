@@ -22,7 +22,7 @@ class TestAuthDbManager(DatabaseManager):
 
 
 def random_word(length) -> str:
-    return 'test_'.join(random.choice(string.ascii_lowercase) for i in range(length))
+    return ''.join(random.choice(string.ascii_lowercase) for i in range(length))
 
 
 
