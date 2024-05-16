@@ -170,7 +170,7 @@ const SimonGame = () => {
             style={{ cursor: "pointer" }}
             onClick={() => { setIsStarted(true); setScore(1); }}
           >
-            <Typography variant="h1">Start</Typography>
+            <Typography variant="h1">Click to start</Typography>
           </Box>
         </Box>
       </>

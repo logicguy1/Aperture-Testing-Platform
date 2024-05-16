@@ -1,7 +1,7 @@
-import { Paper, Checkbox, FormControlLabel, Link, CardContent, CardActions, CardMedia, CardActionArea, Toolbar, Container, Box, Button, IconButton, Typography, useTheme, Table, TextField, Card, Avatar, ButtonBase } from "@mui/material";
+import { Paper, Checkbox, FormControlLabel, Link, CardContent, CardActions, CardMedia, CardActionArea, Box, Button, Typography, useTheme, Card } from "@mui/material";
 import { tokens, themeSettings } from "../../theme";
 import { useState, useEffect, useContext, useRef } from "react";
-import { DataGrid, GridFooter } from '@mui/x-data-grid';
+
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -25,14 +25,6 @@ const Home = () => {
       inputRef.current.focus();
     }
   }, [inputRef])
-
-  const defaultTheme = createTheme({
-    palette: {
-      primary: {
-        main: '#080942',
-      },
-    },
-  });
 
     // Reusable Card Component
     const CustomCard = ({ title, image, description, onClick }) => {
@@ -66,9 +58,9 @@ const Home = () => {
     const cardsData = [
         {
             title: "Reaction Test",
-            image: "/assets/img/typing-background.jpg",
-            src: "/assets/img/typing-background.jpg",
-            description: "The reaction test is about testing your reactions speed, when the screen becomes green, click it, and your score is noted",
+            image: "/public/aim-background.jpg",
+            src: "/public/aim-background.jpg",
+            description: "The reaction test is about testing your reaction speed, when the screen becomes green, click it as fast as possible, and your score is noted",
             onClick: () => {},
           },
         {
@@ -106,7 +98,7 @@ const Home = () => {
 
     // The game is running
     return (
-    <ThemeProvider theme={defaultTheme}>
+    <Box>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <Grid item xs={12} sm={12} md={8} component={Paper} elevation={6} square>
           <Box
@@ -118,7 +110,7 @@ const Home = () => {
               alignItems: 'center',
             }}
           >
-            <Typography variant="h3" gutterBottom textAlign={"center"} sx={{ fontFamily: 'Verdana, sans-serif'}}>Welcome to Aperture Testing Platform!</Typography>
+            <Typography variant="h1" gutterBottom textAlign={"center"} sx={{ fontFamily: 'Verdana, sans-serif'}}>Welcome to Aperture Testing Platform!</Typography>
             
             <Box sx={{
                 backgroundColor: '#221C69',
@@ -161,7 +153,7 @@ const Home = () => {
           }}
         />
       </Grid>
-    </ThemeProvider>
+    </Box>
   );
 }
 

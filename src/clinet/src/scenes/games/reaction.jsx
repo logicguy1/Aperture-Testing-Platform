@@ -103,7 +103,7 @@ const ReactionGame = () => {
             backgroundColor={colors.primary[400]}
           >
             <Typography variant="h1" pb="20px">Reaction Test</Typography>
-            <Typography>The reaction test is about testing your reactions speed, when the screen becomes green, click it, and your score is noted</Typography>
+            <Typography>The reaction test is about testing your reaction speed, when the screen becomes green, click it as fast as possible, and your score is noted</Typography>
           </Box> 
           <Box
             sx={{ boxShadow: 1 }}
@@ -184,7 +184,7 @@ const ReactionGame = () => {
             style={{ cursor: "pointer" }}
             onClick={() => { setIsStarted(true); run_level(); }}
           >
-            <Typography variant="h1">Start</Typography>
+            <Typography variant="h1">Click to start</Typography>
           </Box>
         </Box>
       </>

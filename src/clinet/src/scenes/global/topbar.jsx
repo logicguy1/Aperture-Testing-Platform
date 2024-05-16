@@ -56,7 +56,6 @@ const Topbar = () => {
           <Box
             sx={{...headerStyle, paddingLeft: "30px", backgroundColor: "#080942", width: "200px", cursor: "pointer"}}
             onClick={() => {navigate("/home")}}>
-          >
             <img src={logo} alt="Logo" style={{ maxHeight: 40, width: "auto", transform: "skew(20deg)"}} />
           </Box>
           <Box
@@ -80,7 +79,7 @@ const Topbar = () => {
               )}
             </IconButton>
           </Tooltip>
-          <Tooltip title="Account settings">
+          <Tooltip title="Friends">
             <IconButton onClick={() => {navigate("/settings")}}>
               <ManageAccountsOutlinedIcon />
             </IconButton>

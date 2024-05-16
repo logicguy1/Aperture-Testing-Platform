@@ -28,7 +28,6 @@ const NumberGame = () => {
   const inputRef = useRef(null);
 
   const [score, setScore] = useState(-1);
-  const [turn, setTurn] = useState(0);
   const [isFailed, setIsFailed] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [isShownSplash, setIsShownSplash] = useState(true);
@@ -138,7 +137,7 @@ const NumberGame = () => {
             style={{ cursor: "pointer" }}
             onClick={() => { setIsStarted(true); setScore(1); }}
           >
-            <Typography variant="h1">Start</Typography>
+            <Typography variant="h1">Click to start</Typography>
           </Box>
         </Box>
       </>
@@ -167,7 +166,7 @@ const NumberGame = () => {
                 if (e.target.value == shownNumber) {
                   setScore(score + 1);
                 } else {
-                  alert("cry");
+                  alert("Game over. The right number was "+shownNumber);
                   setIsFailed(true);
                 }
               }

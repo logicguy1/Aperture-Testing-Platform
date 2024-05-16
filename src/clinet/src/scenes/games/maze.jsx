@@ -208,7 +208,7 @@ const MazeGame = () => {
             style={{ cursor: "pointer" }}
             onClick={() => { setIsStarted(true); setScore(1); setStartTime(+new Date()); }}
           >
-            <Typography variant="h1">Start</Typography>
+            <Typography variant="h1">Click to start</Typography>
           </Box>
         </Box>
       </>

@@ -241,7 +241,7 @@ const AimGame = () => {
             style={{ cursor: "pointer" }}
             onClick={() => { setIsStarted(true) }}
           >
-            <Typography variant="h1">Start</Typography>
+            <Typography variant="h1">Click to start</Typography>
           </Box>
         </Box>
       </>
