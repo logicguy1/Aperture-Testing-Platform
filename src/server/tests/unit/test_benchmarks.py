@@ -55,10 +55,28 @@ def test_score_save():
     """
     Test score saving using the Benchmark class
     """
-    pass
+    USER.register(USERNAME, EMAIL, PASSWORD)
+    user1 = USER.login(USERNAME, PASSWORD)
+    benchmark = DBMGR.create_benchmark()
+    benchmark.update_score(user1.id, SCORE)
+    scoreFromDb = DBMGR.get_user_score(user1.id)
+    DBMGR.delete_scores(user1.id)
+    DBMGR.delete_benchmark()
+    DBMGR.delete_user(user1.username)
+    assert scoreFromDb == SCORE
+
 
 def test_score_get():
     """
     Test get score using the Benchmark class
     """
-    pass
+    USER.register(USERNAME, EMAIL, PASSWORD)
+    user1 = USER.login(USERNAME, PASSWORD)
+    benchmark = DBMGR.create_benchmark()
+    benchmark.update_score(user1.id, SCORE)
+    scoresFromDb = user1.get_scores()
+    scoreFromDb = next((benchdict for benchdict in scoresFromDb if benchdict["id"] == benchmark.id), None)["max"] 
+    DBMGR.delete_scores(user1.id)
+    DBMGR.delete_benchmark()
+    DBMGR.delete_user(user1.username)
+    assert scoreFromDb == SCORE
