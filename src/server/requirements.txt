@@ -1,3 +1,4 @@
 Flask==2.3.2
 mysql-connector-python==8.0.33
 PyJWT==2.7.0
+pytest==8.2.0
