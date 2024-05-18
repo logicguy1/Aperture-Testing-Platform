@@ -209,7 +209,7 @@ const Index = () => {
             padding: "0 4em",
             borderRadius: "0px"
           }}
-          onClick={() => {navigate("/settings")}}
+          onClick={() => {navigate("/friends")}}
         >
           Friends
         </Button>

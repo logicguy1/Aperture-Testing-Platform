@@ -206,7 +206,7 @@ const ReactionGame = () => {
             if (isClicked) {
               setScores([...scores, +new Date() - startTime]); setIsClicked(false); run_level()
             } else {
-              alert("no u")
+              alert("Too early!")
             }
           }}
         >

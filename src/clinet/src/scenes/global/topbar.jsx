@@ -79,7 +79,7 @@ const Topbar = () => {
               )}
             </IconButton>
           </Tooltip>
-          <Tooltip title="Friends">
+          <Tooltip title="Settings">
             <IconButton onClick={() => {navigate("/settings")}}>
               <ManageAccountsOutlinedIcon />
             </IconButton>

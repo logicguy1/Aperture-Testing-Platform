@@ -19,6 +19,7 @@ import SimonGame from './scenes/games/simon';
 import MazeGame from './scenes/games/maze';
 import TypingGame from './scenes/games/typing';
 import Home from './scenes/home/home'
+import Friends from './scenes/settings/friends'
 
 import Sidebar from "./scenes/global/sidebar.jsx";
 import Topbar from "./scenes/global/topbar.jsx";
@@ -61,6 +62,7 @@ const App = () => {
                       <Routes>
                         <Route path="/" element={<Index />} />
                         <Route path="/home" element={<Home />} />
+                        <Route path="/friends" element={<Friends />} />
                         <Route path="/user/:userId" element={<Index />} />
                         <Route path="/settings" element={<Settings/>} />
                         <Route path="/games/aim" element={<AimGame />} />

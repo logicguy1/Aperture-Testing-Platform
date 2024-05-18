@@ -1,13 +1,12 @@
 import { Paper, Checkbox, FormControlLabel, Link, CardContent, CardActions, CardMedia, CardActionArea, Box, Button, Typography, useTheme, Card } from "@mui/material";
 import { tokens, themeSettings } from "../../theme";
 import { useState, useEffect, useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Grid from '@mui/material/Grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { AuthContext } from '../../context/AuthContext';
 import { HeadContext } from "../../context/HeadContext";
-
 import config from "../../config";
 
 const Home = () => {
@@ -16,6 +15,7 @@ const Home = () => {
 
   const auth = useContext(AuthContext);
   const head = useContext(HeadContext);
+  const navigate = useNavigate();
 
   const inputRef = useRef(null);
 
@@ -47,7 +47,7 @@ const Home = () => {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary" variant="outlined">
+              <Button size="small" color="primary" variant="outlined" onClick={onClick}>
                 Play
               </Button>
             </CardActions>
@@ -61,37 +61,37 @@ const Home = () => {
             image: "/public/aim-background.jpg",
             src: "/public/aim-background.jpg",
             description: "The reaction test is about testing your reaction speed, when the screen becomes green, click it as fast as possible, and your score is noted",
-            onClick: () => {},
+            onClick: () => {navigate("/games/reaction")},
           },
         {
           title: "Aim Test",
           image: {},
           description: "The goal of the aimgame is to test your hand-eye coordination skills, click the 5 shown targets as fast as possible, your final score is the average time it takes you to clear a screen.",
-          onClick: () => {},
+          onClick: () => {navigate("/games/aim")},
         },
         {
             title: "Typing Test",
             image: "/assets/img/typing-background.jpg", 
             description: "Test your typing speed and accuracy with our typing test. Improve your typing skills and become more efficient!",
-            onClick: () => {},
+            onClick: () => {navigate("/games/typing")},
           },
           {
             title: "Simon Says",
             image: "/assets/img/typing-background.jpg", 
             description: "The goal of this game is to repeat as many patterns that appear on the screen as possible.",
-            onClick: () => {},
+            onClick: () => {navigate("/games/simon")},
           },
           {
             title: "Numbers Test",
             image: "/assets/img/typing-background.jpg", 
             description: "The goal of this test is to memorize as long a sequence of numbers of possible. You are first given one number which will increase for each round.",
-            onClick: () => {},
+            onClick: () => {navigate("/games/numbers")},
           },
           {
             title: "Maze Solver",
             image: "/assets/img/typing-background.jpg",
             description: "This test is to measure your problem solving and pattern recognition skills, when the game starts hover your mouse over the green square and get to the red square without touching a wall. Time starts when you are shown the maze",
-            onClick: () => {},
+            onClick: () => {navigate("/games/maze")},
           }
       ];
 
