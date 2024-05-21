@@ -58,38 +58,37 @@ const Home = () => {
     const cardsData = [
         {
             title: "Reaction Test",
-            image: "/public/aim-background.jpg",
-            src: "/public/aim-background.jpg",
+            image: "/public/reaction-background.jpg",
             description: "The reaction test is about testing your reaction speed, when the screen becomes green, click it as fast as possible, and your score is noted",
             onClick: () => {navigate("/games/reaction")},
           },
         {
           title: "Aim Test",
-          image: {},
+          image: {/public/aim-background.jpg},
           description: "The goal of the aimgame is to test your hand-eye coordination skills, click the 5 shown targets as fast as possible, your final score is the average time it takes you to clear a screen.",
           onClick: () => {navigate("/games/aim")},
         },
         {
             title: "Typing Test",
-            image: "/assets/img/typing-background.jpg", 
+            image: "/public/typing-background.jpg", 
             description: "Test your typing speed and accuracy with our typing test. Improve your typing skills and become more efficient!",
             onClick: () => {navigate("/games/typing")},
           },
           {
             title: "Simon Says",
-            image: "/assets/img/typing-background.jpg", 
+            image: "/public/simon-background.jpg", 
             description: "The goal of this game is to repeat as many patterns that appear on the screen as possible.",
             onClick: () => {navigate("/games/simon")},
           },
           {
             title: "Numbers Test",
-            image: "/assets/img/typing-background.jpg", 
+            image: "/public/number-background.jpg", 
             description: "The goal of this test is to memorize as long a sequence of numbers of possible. You are first given one number which will increase for each round.",
             onClick: () => {navigate("/games/numbers")},
           },
           {
             title: "Maze Solver",
-            image: "/assets/img/typing-background.jpg",
+            image: "/public/maze-background.jpg",
             description: "This test is to measure your problem solving and pattern recognition skills, when the game starts hover your mouse over the green square and get to the red square without touching a wall. Time starts when you are shown the maze",
             onClick: () => {navigate("/games/maze")},
           }
