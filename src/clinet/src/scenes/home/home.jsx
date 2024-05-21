@@ -64,7 +64,7 @@ const Home = () => {
           },
         {
           title: "Aim Test",
-          image: {/public/aim-background.jpg},
+          image: "/public/aim-background.jpg",
           description: "The goal of the aimgame is to test your hand-eye coordination skills, click the 5 shown targets as fast as possible, your final score is the average time it takes you to clear a screen.",
           onClick: () => {navigate("/games/aim")},
         },
