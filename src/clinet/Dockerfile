@@ -17,4 +17,4 @@ COPY . .
 # RUN npm run build
 
 # Command to run your application.
-CMD ["npm", "start"]
+CMD ["npm", "run"]
