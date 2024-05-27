@@ -20,5 +20,5 @@ RUN npm install
 # RUN npm run build
 
 # Command to run your application.
-CMD ["npm", "run"]
+CMD ["npm", "run", "start"]
 # CMD ["tail", "-f", "/dev/null"]
