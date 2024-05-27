@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Build the application (optional, but recommended for production)
-RUN npm run build
+# RUN npm run build
 
 # Command to run your application.
 CMD ["npm", "start"]
