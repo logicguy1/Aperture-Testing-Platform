@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the rest of your application code
-COPY . .
+COPY ./src/clinet .
 
 # Build the application (optional, but recommended for production)
 # RUN npm run build
