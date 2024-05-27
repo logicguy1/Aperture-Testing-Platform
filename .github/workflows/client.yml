@@ -3,7 +3,7 @@ name: Build and Push Client Docker Image
 on:
   push:
     paths:
-      - 'src/client/**'
+      - 'src/clinet/**'
 
 jobs:
   build:
